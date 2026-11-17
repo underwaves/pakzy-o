@@ -938,7 +938,7 @@ export const PointsPage: React.FC = () => {
                       to="/order"
                       className="px-4 py-2.5 rounded-full bg-[var(--color-primary-light)] text-[var(--color-secondary)] text-xs font-bold hover:bg-[var(--color-primary)] hover:text-white transition"
                     >
-                      ไปหน้าสั่งซื้อพร้อมรหัสนี้ →
+                      ไปที่ตะกร้าสินค้าพร้อมรหัสนี้ →
                     </Link>
                     <button
                       type="button"

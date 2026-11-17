@@ -250,7 +250,7 @@ export const ContactPage: React.FC = () => {
             className="px-6 py-3 rounded-full bg-[var(--color-primary)] text-white text-sm font-semibold hover:opacity-95 transition inline-flex items-center gap-2"
           >
             <ShoppingBag className="w-4 h-4" />
-            ไปที่หน้าสั่งซื้อเลย
+            เปิดตะกร้าสินค้า & สั่งซื้อ
           </Link>
         </div>
       </div>
