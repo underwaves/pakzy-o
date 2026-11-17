@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * สคริปต์สร้างหรือรีเซ็ตบัญชีแอดมินคนแรกสำหรับร้าน pakzy.o (PBKDF2-SHA256)
+ * สคริปต์สร้างหรือรีเซ็ตบัญชีแอดมินคนแรกสำหรับร้าน qokhims (PBKDF2-SHA256)
  * รับค่าชื่อผู้ใช้และรหัสผ่านผ่าน Interactive Input หรือ Environment Variable (ไม่ฝังรหัสผ่านในโค้ด)
  *
  * วิธีใช้งาน:
@@ -63,7 +63,7 @@ async function main() {
   const isRemote = process.argv.includes('--remote');
   const targetFlag = isRemote ? '--remote' : '--local';
 
-  console.log(`\n🌸 สคริปต์สร้าง/อัปเดตบัญชีแอดมิน pakzy.o (${isRemote ? 'Production D1' : 'Local D1'}) 🌸\n`);
+  console.log(`\n🌸 สคริปต์สร้าง/อัปเดตบัญชีแอดมิน qokhims (${isRemote ? 'Production D1' : 'Local D1'}) 🌸\n`);
 
   const { username, password } = await promptCredentials();
   if (!/^[a-zA-Z0-9_.-]{2,64}$/.test(username)) {

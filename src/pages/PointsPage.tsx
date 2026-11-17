@@ -98,7 +98,11 @@ export const PointsPage: React.FC = () => {
   // ฟอร์มเช็กแต้ม
   const [lookupCode, setLookupCode] = useState<string>(() => {
     try {
-      return localStorage.getItem('pakzy_member_code') || '';
+      return (
+        localStorage.getItem('qokhims_member_code') ||
+        localStorage.getItem('pakzy_member_code') ||
+        ''
+      );
     } catch {
       return '';
     }
@@ -187,6 +191,7 @@ export const PointsPage: React.FC = () => {
       if (data.rules) setRules(data.rules);
 
       try {
+        localStorage.setItem('qokhims_member_code', data.member.member_code);
         localStorage.setItem('pakzy_member_code', data.member.member_code);
       } catch {
         // ignore
@@ -255,6 +260,7 @@ export const PointsPage: React.FC = () => {
       setExpiringSoon([]);
 
       try {
+        localStorage.setItem('qokhims_member_code', createdMember.member_code);
         localStorage.setItem('pakzy_member_code', createdMember.member_code);
       } catch {
         // ignore
@@ -391,7 +397,7 @@ export const PointsPage: React.FC = () => {
     ctx.fillStyle = '#ec7a9a';
     ctx.font = 'bold 28px "Prompt", sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText(`✿ ${settings.site_name || 'pakzy.o'} — LOYALTY STAMP CARD`, cx + 42, cy + 64);
+    ctx.fillText(`✿ ${settings.site_name || 'qokhims'} — LOYALTY STAMP CARD`, cx + 42, cy + 64);
 
     ctx.fillStyle = '#4a3228';
     ctx.font = '600 16px "Prompt", sans-serif';
@@ -467,20 +473,20 @@ export const PointsPage: React.FC = () => {
     ctx.fillStyle = '#7c5d51';
     ctx.font = '600 14px "Prompt", sans-serif';
     ctx.fillText(
-      `LINE: ${settings.contact_line || '@280npxvj'} • IG: ${settings.contact_ig || 'pakzy.o'}`,
+      `LINE: ${settings.contact_line || '@280npxvj'} • IG: ${settings.contact_ig || 'qokhims'}`,
       cx + cw - 42,
       footerY
     );
 
     const link = document.createElement('a');
-    link.download = `pakzy-member-card-${targetMember.member_code}.png`;
+    link.download = `qokhims-member-card-${targetMember.member_code}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
     showToast('บันทึกรูปบัตรสะสมแต้มเรียบร้อยแล้วค่ะ เก็บไว้ดูรหัสสมาชิกได้เลย ♡', 'success');
   };
 
   if (loadingInitial) {
-    return <LoadingState message="กำลังโหลดหน้าบัตรสะสมแต้มและของรางวัล pakzy.o ♡" />;
+    return <LoadingState message="กำลังโหลดหน้าบัตรสะสมแต้มและของรางวัล qokhims ♡" />;
   }
 
   // กรณีปิดสวิตช์ระบบสะสมแต้มจากหลังบ้าน
@@ -552,7 +558,7 @@ export const PointsPage: React.FC = () => {
         </span>
         <h1 className="text-2xl sm:text-4xl font-bold text-[var(--color-secondary)]">
           บัตรสะสมแต้ม & แลกของรางวัล{' '}
-          <BrandWordmark name={settings.site_name || 'pakzy.o'} dotVariant="heart" />
+          <BrandWordmark name={settings.site_name || 'qokhims'} dotVariant="heart" />
         </h1>
         <CuteSectionDivider />
         <p className="text-sm sm:text-base text-[var(--color-secondary-muted)] leading-relaxed">
@@ -757,7 +763,7 @@ export const PointsPage: React.FC = () => {
                     className="mt-0.5 accent-[var(--color-primary)] w-4 h-4 rounded shrink-0"
                   />
                   <span>
-                    ยินยอมให้ร้าน <strong>{settings.site_name || 'pakzy.o'}</strong> เก็บข้อมูลชื่อเล่นและช่องทางติดต่อเพื่อใช้อ้างอิงการสะสมแต้มและแลกของรางวัลเท่านั้น (สามารถแจ้งแอดมินทาง LINE เพื่อขอลบข้อมูลได้ตลอดเวลาตามแนวทาง PDPA ค่ะ)
+                    ยินยอมให้ร้าน <strong>{settings.site_name || 'qokhims'}</strong> เก็บข้อมูลชื่อเล่นและช่องทางติดต่อเพื่อใช้อ้างอิงการสะสมแต้มและแลกของรางวัลเท่านั้น (สามารถแจ้งแอดมินทาง LINE เพื่อขอลบข้อมูลได้ตลอดเวลาตามแนวทาง PDPA ค่ะ)
                   </span>
                 </label>
 
@@ -786,11 +792,11 @@ export const PointsPage: React.FC = () => {
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-primary-light)] text-[var(--color-primary)] text-xs font-bold border border-[var(--color-border)]">
                   <Award className="w-3.5 h-3.5" />
-                  PAKZY.O STAMP CARD
+                  QOKHIMS STAMP CARD
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-[var(--color-secondary)] flex items-center gap-2">
                   <span>
-                    {member ? `บัตรของคุณ ${member.display_name}` : 'ตัวอย่างบัตรสะสมแต้มร้าน pakzy.o'}
+                    {member ? `บัตรของคุณ ${member.display_name}` : 'ตัวอย่างบัตรสะสมแต้มร้าน qokhims'}
                   </span>
                   <CuteHeart className="w-5 h-5" />
                 </h2>
@@ -1012,7 +1018,7 @@ export const PointsPage: React.FC = () => {
                       {rw.name}
                     </h3>
                     <p className="text-xs sm:text-sm text-[var(--color-secondary-muted)] leading-relaxed">
-                      {rw.description || 'ใช้เป็นส่วนลดหรือรับของแถมพิเศษเมื่อสั่งงานกับร้าน pakzy.o'}
+                      {rw.description || 'ใช้เป็นส่วนลดหรือรับของแถมพิเศษเมื่อสั่งงานกับร้าน qokhims'}
                     </p>
                   </div>
 

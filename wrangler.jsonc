@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "pakzy-o",
+  "name": "qokhims",
   "main": "worker/index.ts",
   "compatibility_date": "2025-02-14",
 

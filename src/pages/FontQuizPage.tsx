@@ -377,7 +377,7 @@ export const FontQuizPage: React.FC = () => {
       ctx.fillStyle = '#ec7a9a';
       ctx.font = 'bold 24px Prompt, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('♥ ผลลัพธ์ “ฟอนต์ไหนคือคุณ” by pakzy.o', 540, 180);
+      ctx.fillText('♥ ผลลัพธ์ “ฟอนต์ไหนคือคุณ” by qokhims', 540, 180);
 
       // ชื่อคาแรกเตอร์ผลลัพธ์
       ctx.fillStyle = '#4a3228';
@@ -432,7 +432,7 @@ export const FontQuizPage: React.FC = () => {
       ctx.fillStyle = '#7d5d50';
       ctx.font = 'bold 22px Prompt, sans-serif';
       ctx.fillText(
-        `pakzy.o — ตัวอักษรคือตัวเอกของร้าน • IG: ${settings.contact_ig || 'pakzy.o'} • LINE: ${
+        `qokhims — ตัวอักษรคือตัวเอกของร้าน • IG: ${settings.contact_ig || 'qokhims'} • LINE: ${
           settings.contact_line || '@280npxvj'
         }`,
         540,
@@ -442,7 +442,7 @@ export const FontQuizPage: React.FC = () => {
       const dataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = dataUrl;
-      a.download = `pakzy-font-quiz-${winningPersona.key}.png`;
+      a.download = `qokhims-font-quiz-${winningPersona.key}.png`;
       a.click();
       showToast('บันทึกการ์ดผลลัพธ์เป็นรูปภาพ (.PNG) เรียบร้อยแล้วค่ะ ♡', 'success');
     } catch {
@@ -454,11 +454,11 @@ export const FontQuizPage: React.FC = () => {
 
   // แชร์ผลลัพธ์หรือคัดลอกข้อความแชร์
   const handleShareResult = async () => {
-    const shareText = `ผลแบบทดสอบ “ฟอนต์ไหนคือคุณ” จากร้าน pakzy.o คือ “${winningPersona.title}” ♡ ลองมาเล่นกันได้ที่ ${window.location.origin}/font-quiz`;
+    const shareText = `ผลแบบทดสอบ “ฟอนต์ไหนคือคุณ” จากร้าน qokhims คือ “${winningPersona.title}” ♡ ลองมาเล่นกันได้ที่ ${window.location.origin}/font-quiz`;
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'ฟอนต์ไหนคือคุณ? — pakzy.o',
+          title: 'ฟอนต์ไหนคือคุณ? — qokhims',
           text: shareText,
           url: `${window.location.origin}/font-quiz`,
         });
@@ -721,7 +721,7 @@ export const FontQuizPage: React.FC = () => {
 
             <div className="pt-1 text-[11px] text-[var(--color-secondary-muted)] flex items-center justify-center gap-1">
               <span>ออกแบบโดย</span>
-              <BrandWordmark name={settings.site_name || 'pakzy.o'} dotVariant="heart" />
+              <BrandWordmark name={settings.site_name || 'qokhims'} dotVariant="heart" />
             </div>
           </div>
         </div>

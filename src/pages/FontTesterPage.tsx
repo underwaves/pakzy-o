@@ -34,7 +34,7 @@ import { calculateFontPriceInfo } from '../utils/promo';
 
 const PRESET_SAMPLES = [
   'ฝากร้านหน่อยนะคะ ขอบคุณทุกออเดอร์เลยน้า ♡ 1234567890',
-  'สวัสดีค่ะ ยินดีต้อนรับสู่ร้าน pakzy.o รับออกแบบป้ายและฟอนต์น่ารัก ✿',
+  'สวัสดีค่ะ ยินดีต้อนรับสู่ร้าน qokhims รับออกแบบป้ายและฟอนต์น่ารัก ✿',
   'แจ้งเลขพัสดุประจำวันนี้ ขอบคุณที่อุดหนุนร้านเล็ก ๆ ของเรานะคะ ♥',
   'โปรโมชันพิเศษ! ซื้อครบ 2 ชิ้น ส่งฟรีทั่วไทย ☆ Special Offer 50% OFF',
   'กขคงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ ๑๒๓๔๕๖๗๘๙๐',
@@ -266,7 +266,7 @@ export const FontTesterPage: React.FC = () => {
           <CuteHeart className="w-3.5 h-3.5" />
         </div>
         <h1 className="text-2xl sm:text-4xl font-bold text-[var(--color-secondary)] tracking-tight">
-          สตูดิโอทดลองพิมพ์ฟอนต์ pakzy.o
+          สตูดิโอทดลองพิมพ์ฟอนต์ qokhims
         </h1>
         <CuteSectionDivider />
         <p className="text-sm sm:text-base text-[var(--color-secondary-muted)]">
@@ -976,7 +976,7 @@ export const FontTesterPage: React.FC = () => {
                   }}
                   className="font-bold pt-2 leading-snug"
                 >
-                  {customText || 'ร้าน pakzy.o ขอบคุณทุกออเดอร์เลยน้า ♡'}
+                  {customText || 'ร้าน qokhims ขอบคุณทุกออเดอร์เลยน้า ♡'}
                 </h3>
               </div>
 
@@ -993,7 +993,7 @@ export const FontTesterPage: React.FC = () => {
                     ธ.กสิกรไทย: 123-4-56789-0
                   </div>
                   <div className="text-sm sm:text-base text-[#7d5d50]">
-                    ชื่อบัญชี: สตูดิโอ pakzy.o (โอนแล้วแจ้งสลิปได้เลยนะคะ ♥)
+                    ชื่อบัญชี: สตูดิโอ qokhims (โอนแล้วแจ้งสลิปได้เลยนะคะ ♥)
                   </div>
                 </div>
               </div>
@@ -1062,10 +1062,10 @@ export const FontTesterPage: React.FC = () => {
                   }}
                   className="font-bold leading-tight"
                 >
-                  {customText || 'pakzy.o handmade studio ♡'}
+                  {customText || 'qokhims handmade studio ♡'}
                 </p>
                 <span className="text-[11px] font-semibold tracking-widest uppercase text-[#7d5d50]">
-                  ✿ DO NOT COPY PHOTO • @PAKZY.O ✿
+                  ✿ DO NOT COPY PHOTO • @QOKHIMS ✿
                 </span>
               </div>
             </div>
@@ -1164,7 +1164,7 @@ export const FontTesterPage: React.FC = () => {
           <CuteHeart className="w-4 h-4" />
         </div>
         <h3 className="text-base sm:text-lg font-bold text-[var(--color-secondary)]">
-          ทุกฟอนต์ของร้าน pakzy.o รองรับทั้งการใช้งานส่วนตัวและเชิงพาณิชย์ ♡
+          ทุกฟอนต์ของร้าน qokhims รองรับทั้งการใช้งานส่วนตัวและเชิงพาณิชย์ ♡
         </h3>
         <p className="text-xs sm:text-sm text-[var(--color-secondary-muted)] max-w-2xl mx-auto leading-relaxed">
           ได้รับไฟล์ <strong>.TTF</strong> พร้อมใช้งาน มีครบ 3 น้ำหนัก: <strong>บาง / ปกติ / หนา (Light, Regular, Bold)</strong> ติดตั้งง่ายทั้งใน iPad (GoodNotes, Procreate, CapCut, Phonto, Canva) รวมถึงคอมพิวเตอร์ Windows และ Mac สระไม่ลอย มีวรรณยุกต์ครบถ้วน พิมพ์งานได้สวยละมุนค่ะ ♡

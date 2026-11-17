@@ -34,7 +34,7 @@ export interface RedemptionSummaryPayload {
  */
 export function buildOrderSummaryText(order: OrderSummaryPayload): string {
   const lines: string[] = [
-    '🌸 สรุปคำสั่งซื้อร้าน pakzy.o 🌸',
+    '🌸 สรุปคำสั่งซื้อร้าน qokhims 🌸',
     `รหัสคำสั่งซื้อ: ${order.order_code}`,
   ];
 
@@ -82,7 +82,7 @@ export function buildOrderSummaryText(order: OrderSummaryPayload): string {
  */
 export function buildRedemptionSummaryText(payload: RedemptionSummaryPayload): string {
   const lines: string[] = [
-    '🎁 แจ้งแลกของรางวัลสะสมแต้ม pakzy.o 🎁',
+    '🎁 แจ้งแลกของรางวัลสะสมแต้ม qokhims 🎁',
     `รหัสรายการแลก: #RDM-${String(payload.redemption_id).padStart(4, '0')}`,
     `🎫 รหัสสมาชิก: ${payload.member_code}`,
     `👤 ชื่อสมาชิก: ${payload.display_name}`,
@@ -200,7 +200,7 @@ export async function testLinePushNotification(
         messages: [
           {
             type: 'text',
-            text: `🌸 ทดสอบระบบแจ้งเตือนร้าน ${siteName || 'pakzy.o'} สำเร็จแล้วค่ะ! 🌸\nเมื่อมีลูกค้าสั่งซื้อบนหน้าเว็บ ระบบจะส่งสรุปออเดอร์เข้าแชตนี้ให้อัตโนมัติทันทีค่ะ ♡`,
+            text: `🌸 ทดสอบระบบแจ้งเตือนร้าน ${siteName || 'qokhims'} สำเร็จแล้วค่ะ! 🌸\nเมื่อมีลูกค้าสั่งซื้อบนหน้าเว็บ ระบบจะส่งสรุปออเดอร์เข้าแชตนี้ให้อัตโนมัติทันทีค่ะ ♡`,
           },
         ],
       }),

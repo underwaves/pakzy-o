@@ -265,6 +265,9 @@ adminRoute.get('/dashboard', async (c) => {
     membersCount,
     ledgerStats,
     redemptionStats,
+    dailySalesRes,
+    monthlySalesRes,
+    yearlySalesRes,
   ] = await Promise.all([
     db.prepare('SELECT COUNT(*) as total FROM products').first<{ total: number }>(),
     db.prepare('SELECT COUNT(*) as total FROM fonts').first<{ total: number }>(),
@@ -306,6 +309,45 @@ adminRoute.get('/dashboard', async (c) => {
          FROM redemptions`
       )
       .first<{ total_points_redeemed: number; pending_redemptions: number }>(),
+    db
+      .prepare(
+        `SELECT
+          strftime('%Y-%m-%d', created_at) as period,
+          COUNT(*) as order_count,
+          COALESCE(SUM(total_amount), 0) as revenue
+         FROM orders
+         WHERE status != 'cancelled'
+         GROUP BY period
+         ORDER BY period DESC
+         LIMIT 30`
+      )
+      .all<{ period: string; order_count: number; revenue: number }>(),
+    db
+      .prepare(
+        `SELECT
+          strftime('%Y-%m', created_at) as period,
+          COUNT(*) as order_count,
+          COALESCE(SUM(total_amount), 0) as revenue
+         FROM orders
+         WHERE status != 'cancelled'
+         GROUP BY period
+         ORDER BY period DESC
+         LIMIT 12`
+      )
+      .all<{ period: string; order_count: number; revenue: number }>(),
+    db
+      .prepare(
+        `SELECT
+          strftime('%Y', created_at) as period,
+          COUNT(*) as order_count,
+          COALESCE(SUM(total_amount), 0) as revenue
+         FROM orders
+         WHERE status != 'cancelled'
+         GROUP BY period
+         ORDER BY period DESC
+         LIMIT 10`
+      )
+      .all<{ period: string; order_count: number; revenue: number }>(),
   ]);
 
   return c.json({
@@ -321,6 +363,11 @@ adminRoute.get('/dashboard', async (c) => {
       total_points_issued: ledgerStats?.total_points_issued ?? 0,
       total_points_redeemed: redemptionStats?.total_points_redeemed ?? 0,
       pending_redemptions: redemptionStats?.pending_redemptions ?? 0,
+    },
+    salesByPeriod: {
+      day: [...(dailySalesRes.results || [])].reverse(),
+      month: [...(monthlySalesRes.results || [])].reverse(),
+      year: [...(yearlySalesRes.results || [])].reverse(),
     },
     recentOrders: recentOrders.results,
   });
@@ -1073,7 +1120,7 @@ adminRoute.post('/bills', async (c) => {
     const itemLines = data.items
       .map((it, idx) => `${idx + 1}. ${it.product_title} x${it.quantity} (${it.unit_price} ฿)`)
       .join('\n');
-    summaryText = `🌸 สรุปบิลสั่งซื้อร้าน pakzy.o 🌸
+    summaryText = `🌸 สรุปบิลสั่งซื้อร้าน qokhims 🌸
 รหัสบิล: ${orderCode}
 --------------------------
 📦 รายการ:
@@ -1082,7 +1129,7 @@ ${discount > 0 ? `🎟️ ส่วนลด: -${discount} บาท\n` : ''}�
 👤 ลูกค้า: ${data.customer_name}
 ${data.due_date ? `📅 วันรับ/ส่งงาน: ${data.due_date}\n` : ''}--------------------------
 แจ้งหลักฐานการชำระเงินทุกครั้งนะคะ ♡
-ขอบคุณที่อุดหนุน pakzy.o ค่า ✨`;
+ขอบคุณที่อุดหนุน qokhims ค่า ✨`;
   }
 
   const insertRes = await db.prepare(
@@ -1227,7 +1274,7 @@ adminRoute.post('/bills/send-line', async (c) => {
           },
           {
             type: 'text',
-            text: `🌸 บิลคำสั่งซื้อร้าน pakzy.o (${orderCode})\n👤 ลูกค้า: ${customerName}\n💰 ยอดชำระ: ฿${totalAmount} บาท\n\nแอดมินสามารถบันทึกรูปบิลด้านบนส่งต่อให้ลูกค้าในแชต LINE ได้เลยนะคะ ♡`,
+            text: `🌸 บิลคำสั่งซื้อร้าน qokhims (${orderCode})\n👤 ลูกค้า: ${customerName}\n💰 ยอดชำระ: ฿${totalAmount} บาท\n\nแอดมินสามารถบันทึกรูปบิลด้านบนส่งต่อให้ลูกค้าในแชต LINE ได้เลยนะคะ ♡`,
           },
         ],
       }),
@@ -1562,7 +1609,7 @@ adminRoute.post('/line-test', async (c) => {
   const result = await testLinePushNotification(
     effectiveToken,
     effectiveUserId,
-    siteNameRow?.value || 'pakzy.o'
+    siteNameRow?.value || 'qokhims'
   );
 
   if (!result.ok) {

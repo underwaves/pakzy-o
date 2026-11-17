@@ -3,7 +3,7 @@ import { RefreshCw } from 'lucide-react';
 import {
   CuteHeart,
   CuteFlower,
-  PakzyMascotSticker,
+  QokhimsMascotSticker,
   CardCornerDoodle,
   BrandWordmark,
 } from './Decorations';
@@ -13,10 +13,10 @@ export const LoadingState: React.FC<{ message?: string }> = ({
 }) => (
   <div className="flex flex-col items-center justify-center py-16 px-4 text-center animate-fade-in">
     <div className="relative mb-2 animate-float-gentle">
-      <PakzyMascotSticker mood="loading" className="w-22 h-22" />
+      <QokhimsMascotSticker mood="loading" className="w-22 h-22" />
     </div>
     <div className="text-xl font-bold text-[var(--color-secondary)] mb-1 animate-pulse-soft">
-      <BrandWordmark name="pakzy.o" dotVariant="heart" dotClassName="w-4 h-4 mx-0.5 -translate-y-0.5" />
+      <BrandWordmark name="qokhims" dotVariant="heart" dotClassName="w-4 h-4 mx-0.5 -translate-y-0.5" />
     </div>
     <p className="text-sm sm:text-base font-medium text-[var(--color-secondary-muted)] flex items-center gap-1.5">
       <CuteFlower className="w-4 h-4 animate-spin" />
@@ -40,7 +40,7 @@ export const EmptyState: React.FC<{
     <CardCornerDoodle variant="flower" position="top-right" />
     <CardCornerDoodle variant="heart" position="top-left" />
     <div className="mb-3 animate-float-gentle">
-      <PakzyMascotSticker mood="empty" className="w-24 h-24" />
+      <QokhimsMascotSticker mood="empty" className="w-24 h-24" />
     </div>
     <h3 className="text-lg font-bold text-[var(--color-secondary)] mb-1 flex items-center gap-1.5">
       <span>{title}</span>
@@ -66,7 +66,7 @@ export const ErrorState: React.FC<{
 }> = ({ message = 'เกิดข้อผิดพลาดในการโหลดข้อมูลชั่วคราวค่ะ', onRetry }) => (
   <div className="relative flex flex-col items-center justify-center py-14 px-6 text-center pkz-card rounded-3xl animate-fade-in">
     <div className="mb-3">
-      <PakzyMascotSticker mood="lost" className="w-22 h-22" />
+      <QokhimsMascotSticker mood="lost" className="w-22 h-22" />
     </div>
     <h3 className="text-base font-bold text-[var(--color-secondary)] mb-1">
       อุ๊ปส์! โหลดข้อมูลสะดุดนิดหน่อยค่ะ

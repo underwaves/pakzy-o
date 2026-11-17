@@ -161,27 +161,6 @@ html.dark .pkz-sticker-card {
   display: none !important;
 }
 
-/* แถบข้อความวิ่ง Marquee Strip (หยุดเมื่อ Hover หรือ prefers-reduced-motion) */
-@keyframes pkzMarquee {
-  0% {
-    transform: translate3d(0%, 0, 0);
-  }
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-.pkz-marquee-track {
-  display: flex;
-  width: max-content;
-  animation: pkzMarquee 36s linear infinite;
-  will-change: transform;
-}
-
-.pkz-marquee-wrap:hover .pkz-marquee-track {
-  animation-play-state: paused;
-}
-
 /* ตราประทับ "ขอบคุณค่ะ" ตกลงมาแบบเด้งในหน้าสั่งซื้อสำเร็จ (ตั้งตรง ไม่เอียง) */
 @keyframes pkzStampDrop {
   0% {
@@ -401,11 +380,6 @@ html.dark .pkz-washi-tape {
   .pkz-order-btn:hover::after {
     animation: none !important;
     opacity: 0 !important;
-  }
-
-  .pkz-marquee-track {
-    animation: none !important;
-    transform: none !important;
   }
 
   .pkz-card,

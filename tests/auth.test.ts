@@ -81,10 +81,10 @@ describe('Admin JWT Security & Regression Tests', () => {
       };
       
       const devSecret = getJwtSecret(devEnv);
-      expect(devSecret).toBe('pakzy-local-dev-jwt-secret-key-at-least-32-chars-long');
+      expect(devSecret).toBe('qokhims-local-dev-jwt-secret-key-at-least-32-chars-long');
 
       const testSecret = getJwtSecret(testEnv);
-      expect(testSecret).toBe('pakzy-local-dev-jwt-secret-key-at-least-32-chars-long');
+      expect(testSecret).toBe('qokhims-local-dev-jwt-secret-key-at-least-32-chars-long');
     });
   });
 

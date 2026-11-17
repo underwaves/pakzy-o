@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://pakzy-o.wo-nad.workers.dev/sitemap.xml
+Sitemap: https://qokhims.wo-nad.workers.dev/sitemap.xml

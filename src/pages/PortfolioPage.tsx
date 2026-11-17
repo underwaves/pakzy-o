@@ -94,7 +94,7 @@ export const PortfolioPage: React.FC = () => {
     return portfolioItems.filter((i) => i.category === selectedCategory);
   }, [portfolioItems, selectedCategory]);
 
-  const igHandle = (settings.contact_ig || 'pakzy.o').replace(/^@/, '').trim();
+  const igHandle = (settings.contact_ig || 'qokhims').replace(/^@/, '').trim();
   const lineHandle = (settings.contact_line || '@280npxvj').trim();
   const lineUrlHandle = lineHandle.startsWith('@') ? lineHandle : `@${lineHandle}`;
   const facebookValue = settings.contact_facebook?.trim() || '';
@@ -108,16 +108,16 @@ export const PortfolioPage: React.FC = () => {
           <div className="inline-flex items-center justify-center p-1.5 rounded-full bg-[var(--color-primary-light)] border-2 border-[var(--color-border)] shadow-2xs">
             <img
               src={
-                settings.logo_url && settings.logo_url !== '/r2/seed/logo-pakzy.svg'
+                settings.logo_url && !settings.logo_url.includes('seed/logo-')
                   ? settings.logo_url
-                  : '/pakzy-profile.png'
+                  : '/qokhims-profile.png'
               }
-              alt={settings.site_name || 'pakzy.o'}
+              alt={settings.site_name || 'qokhims'}
               className="w-16 h-16 rounded-full object-cover"
             />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[var(--color-secondary)]">
-            <BrandWordmark name={settings.site_name || 'pakzy.o'} dotVariant="heart" /> — รวมลิงก์ & ผลงาน
+            <BrandWordmark name={settings.site_name || 'qokhims'} dotVariant="heart" /> — รวมลิงก์ & ผลงาน
           </h1>
           <p className="text-xs sm:text-sm text-[var(--color-secondary-muted)]">
             {settings.site_tagline ||

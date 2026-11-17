@@ -46,7 +46,7 @@ export const Navbar: React.FC = () => {
         <span className="inline-flex flex-wrap items-center justify-center gap-1.5">
           <CuteFlower className="w-3.5 h-3.5" />
           <span>
-            {settings.site_name || 'pakzy.o'} — รับออกแบบป้ายและจำหน่ายฟอนต์ลายมือน่ารัก
+            {settings.site_name || 'qokhims'} — รับออกแบบป้ายและจำหน่ายฟอนต์ลายมือน่ารัก
           </span>
           <CuteHeart className="w-3.5 h-3.5" />
           <a
@@ -70,16 +70,16 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap px-1.5 sm:px-2 py-1 pr-2.5 sm:pr-3.5 rounded-full bg-[var(--color-primary-light)]/85 border border-[var(--color-secondary)]/30 group-hover:border-[var(--color-primary)] transition shadow-2xs">
             <img
               src={
-                settings.logo_url && settings.logo_url !== '/r2/seed/logo-pakzy.svg'
+                settings.logo_url && !settings.logo_url.includes('seed/logo-')
                   ? settings.logo_url
-                  : '/pakzy-profile.png'
+                  : '/qokhims-profile.png'
               }
-              alt={settings.site_name || 'pakzy.o'}
+              alt={settings.site_name || 'qokhims'}
               className="w-7 h-7 sm:w-9 sm:h-9 rounded-full object-cover border border-[#624136]/40 shadow-2xs group-hover:scale-105 transition-transform shrink-0"
             />
             <span className="text-sm sm:text-lg font-bold tracking-tight text-[var(--color-secondary)]">
               <BrandWordmark
-                name={settings.site_name || 'pakzy.o'}
+                name={settings.site_name || 'qokhims'}
                 dotVariant="dot"
                 dotClassName="w-3 h-3 sm:w-3.5 sm:h-3.5 mx-0.5 -translate-y-0.5"
               />

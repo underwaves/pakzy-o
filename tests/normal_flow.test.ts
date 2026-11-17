@@ -253,12 +253,12 @@ describe('End-to-End Normal Happy Path Flow', () => {
 
     const setCookieHeader = loginRes.headers.get('set-cookie');
     expect(setCookieHeader).toBeDefined();
-    expect(setCookieHeader).toContain('pakzy_admin_token=');
+    expect(setCookieHeader).toContain('qokhims_admin_token=');
     expect(setCookieHeader?.toLowerCase()).toContain('httponly');
     expect(setCookieHeader?.toLowerCase()).toContain('samesite=lax');
 
     // Extract cookie value
-    const match = setCookieHeader?.match(/pakzy_admin_token=([^;]+)/);
+    const match = setCookieHeader?.match(/qokhims_admin_token=([^;]+)/);
     const cookieToken = match ? match[1] : '';
     expect(cookieToken).toBeTruthy();
 
@@ -267,7 +267,7 @@ describe('End-to-End Normal Happy Path Flow', () => {
       '/api/admin/me',
       {
         headers: {
-          Cookie: `pakzy_admin_token=${cookieToken}`,
+          Cookie: `qokhims_admin_token=${cookieToken}`,
         },
       },
       env

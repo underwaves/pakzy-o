@@ -27,7 +27,7 @@ export const AdminLoginPage: React.FC = () => {
         throw new Error(data.error || 'เข้าสู่ระบบไม่สำเร็จ');
       }
 
-      showToast('ยินดีต้อนรับเข้าสู่ระบบจัดการร้าน pakzy.o ค่ะ ♡', 'success');
+      showToast('ยินดีต้อนรับเข้าสู่ระบบจัดการร้าน qokhims ค่ะ ♡', 'success');
       navigate('/admin', { replace: true });
     } catch (err) {
       showToast(err instanceof Error ? err.message : 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ', 'error');
@@ -42,8 +42,8 @@ export const AdminLoginPage: React.FC = () => {
         <div className="text-center space-y-2">
           <div className="w-16 h-16 rounded-full bg-[var(--color-primary-light)] border-2 border-[var(--color-border)] p-1 flex items-center justify-center mx-auto shadow-xs">
             <img
-              src="/pakzy-profile.png"
-              alt="pakzy.o"
+              src="/qokhims-profile.png"
+              alt="qokhims"
               className="w-full h-full rounded-full object-cover"
             />
           </div>
@@ -51,7 +51,7 @@ export const AdminLoginPage: React.FC = () => {
             <CuteFlower className="w-3.5 h-3.5" /> Admin Portal
           </span>
           <h1 className="text-2xl font-bold text-[var(--color-secondary)]">
-            เข้าสู่ระบบหลังบ้าน pakzy.o
+            เข้าสู่ระบบหลังบ้าน qokhims
           </h1>
           <p className="text-xs text-[var(--color-secondary-muted)]">
             ป้องกันด้วยรหัสผ่าน PBKDF2 Hash และ JWT ใน httpOnly Cookie

@@ -28,7 +28,7 @@ import {
   CuteStar,
   CuteSectionDivider,
   CardCornerDoodle,
-  PakzyMascotSticker,
+  QokhimsMascotSticker,
 } from '../components/ui/Decorations';
 import { PromptPayQrCard } from '../components/ui/PromptPayQrCard';
 import { drawQokhimsReceiptToCanvas } from '../utils/receiptCanvas';
@@ -91,7 +91,11 @@ export const OrderPage: React.FC = () => {
   const [customerEmail, setCustomerEmail] = useState('');
   const [memberCode, setMemberCode] = useState<string>(() => {
     try {
-      return localStorage.getItem('pakzy_member_code') || '';
+      return (
+        localStorage.getItem('qokhims_member_code') ||
+        localStorage.getItem('pakzy_member_code') ||
+        ''
+      );
     } catch {
       return '';
     }
@@ -388,12 +392,12 @@ export const OrderPage: React.FC = () => {
 
     const canvas = document.createElement('canvas');
     drawQokhimsReceiptToCanvas(canvas, {
-      siteName: settings.site_name || 'pakzy.o',
-      tagline: settings.site_tagline || 'Font by pakzy 🌸 รับออกแบบงานต่างๆ',
+      siteName: settings.site_name || 'qokhims',
+      tagline: settings.site_tagline || 'Font by qokhims 🌸 รับออกแบบงานต่างๆ',
       orderCode,
       billDate,
       billTime,
-      customerName: customerName || 'ลูกค้า pakzy.o',
+      customerName: customerName || 'ลูกค้า qokhims',
       customerContact: customerContact,
       customerEmail: customerEmail,
       items: activeItems.map((it) => ({
@@ -407,11 +411,11 @@ export const OrderPage: React.FC = () => {
       promptPayNumber: settings.promptpay_number || '0812345678',
       bankName: settings.bank_name || 'ธนาคารกสิกรไทย (KBANK)',
       bankAccountNumber: settings.bank_account_number || '123-4-56789-0',
-      bankAccountName: settings.bank_account_name || 'น.ส. พักตร์ปรียา (pakzy.o)',
+      bankAccountName: settings.bank_account_name || 'น.ส. พักตร์ปรียา (qokhims)',
     });
 
     const link = document.createElement('a');
-    link.download = `pakzy-receipt-${orderCode}.png`;
+    link.download = `qokhims-receipt-${orderCode}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
     showToast('บันทึกรูปใบเสร็จเรียบร้อยแล้วค่ะ ♡', 'success');
@@ -569,7 +573,7 @@ export const OrderPage: React.FC = () => {
 
             {cartItems.length === 0 ? (
               <div className="text-center py-10 px-4 rounded-2xl border border-dashed border-[var(--color-border)] text-sm text-[var(--color-secondary-muted)] space-y-3">
-                <PakzyMascotSticker mood="empty" className="w-16 h-16 mx-auto" />
+                <QokhimsMascotSticker mood="empty" className="w-16 h-16 mx-auto" />
                 <p>ตะกร้าของคุณยังว่างอยู่เลยค่ะ แวะไปลองพิมพ์ฟอนต์ก่อนได้น้า ♡</p>
                 <Link
                   to="/font-tester"
@@ -796,7 +800,7 @@ export const OrderPage: React.FC = () => {
             promptPayNumber={settings.promptpay_number || '0812345678'}
             bankName={settings.bank_name || 'ธนาคารกสิกรไทย (KBANK)'}
             bankAccountNumber={settings.bank_account_number || '123-4-56789-0'}
-            bankAccountName={settings.bank_account_name || 'น.ส. พักตร์ปรียา (pakzy.o)'}
+            bankAccountName={settings.bank_account_name || 'น.ส. พักตร์ปรียา (qokhims)'}
             slipFile={slipFile}
             slipPreviewUrl={slipPreviewUrl}
             onSlipSelect={handleSlipSelect}
@@ -982,7 +986,7 @@ export const OrderPage: React.FC = () => {
             <div className="border-t border-dashed border-[var(--color-border)] pt-4 text-left space-y-2 text-xs sm:text-sm">
               <div className="flex justify-between text-[var(--color-secondary-muted)]">
                 <span>ลูกค้า:</span>
-                <strong className="text-[var(--color-secondary)]">{customerName || 'ลูกค้า pakzy.o'}</strong>
+                <strong className="text-[var(--color-secondary)]">{customerName || 'ลูกค้า qokhims'}</strong>
               </div>
               {customerContact ? (
                 <div className="flex justify-between text-[var(--color-secondary-muted)]">

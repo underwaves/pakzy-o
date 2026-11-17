@@ -124,7 +124,7 @@ export const ReviewsPage: React.FC = () => {
         </h1>
         <CuteSectionDivider />
         <p className="text-sm sm:text-base text-[var(--color-secondary-muted)]">
-          ทุกเสียงตอบรับคือกำลังใจสำคัญของร้าน pakzy.o ขอบคุณที่ให้เราดูแลงานดีไซน์และฟอนต์ให้แบรนด์ของคุณนะคะ ♡
+          ทุกเสียงตอบรับคือกำลังใจสำคัญของร้าน qokhims ขอบคุณที่ให้เราดูแลงานดีไซน์และฟอนต์ให้แบรนด์ของคุณนะคะ ♡
         </p>
       </div>
 
@@ -192,7 +192,7 @@ export const ReviewsPage: React.FC = () => {
             <CardCornerDoodle corner="top-right" variant="heart" />
             <h2 className="text-lg font-bold text-[var(--color-secondary)] flex items-center gap-2">
               <MessageSquareHeart className="w-5 h-5 text-[var(--color-primary)]" />
-              เขียนรีวิวให้ร้าน pakzy.o
+              เขียนรีวิวให้ร้าน qokhims
             </h2>
 
             {/* เลือกดาว 1-5 (เด้งและเรืองแสงตอนกด) */}
@@ -339,7 +339,7 @@ export const ReviewsPage: React.FC = () => {
           ) : reviews.length === 0 ? (
             <EmptyState
               title="ยังไม่มีรีวิวในขณะนี้"
-              description="มาเป็นคนแรกที่เขียนรีวิวน่ารัก ๆ ให้ร้าน pakzy.o กันนะคะ"
+              description="มาเป็นคนแรกที่เขียนรีวิวน่ารัก ๆ ให้ร้าน qokhims กันนะคะ"
             />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

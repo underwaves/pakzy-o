@@ -62,10 +62,10 @@ describe('Order Tracking Token, Privacy & Security Tests', () => {
           discount_amount: 20,
           status: 'completed',
           payment_status: 'verified',
-          slip_url: 'https://r2.pakzy.com/slips/secret-slip.jpg',
+          slip_url: 'https://r2.qokhims.com/slips/secret-slip.jpg',
           slip_trans_ref: 'TRANS-REF-SECRET-999',
           slip_verify_note: 'Verified OK',
-          drive_link: 'https://drive.google.com/drive/folders/pakzy-safe-link-123',
+          drive_link: 'https://drive.google.com/drive/folders/qokhims-safe-link-123',
           due_date: '2026-11-20',
           slip_verified: 1,
           channel: 'web',
@@ -207,7 +207,7 @@ describe('Order Tracking Token, Privacy & Security Tests', () => {
       const body = await res.json();
       expect(body.order.order_code).toBe('PKZ-VALID-001');
       expect(body.order.status).toBe('completed');
-      expect(body.order.drive_link).toBe('https://drive.google.com/drive/folders/pakzy-safe-link-123');
+      expect(body.order.drive_link).toBe('https://drive.google.com/drive/folders/qokhims-safe-link-123');
       expect(body.items).toHaveLength(2);
     });
 

@@ -206,7 +206,7 @@ export async function hashTrackingToken(token: string): Promise<string> {
   const cleanToken = token.trim();
   const digest = await crypto.subtle.digest(
     'SHA-256',
-    new TextEncoder().encode(`pakzy-trk-token-salt:${cleanToken}`)
+    new TextEncoder().encode(`qokhims-trk-token-salt:${cleanToken}`)
   );
   return bytesToHex(new Uint8Array(digest));
 }
@@ -217,7 +217,7 @@ export async function hashTrackingToken(token: string): Promise<string> {
 export async function hashIp(ip: string): Promise<string> {
   const digest = await crypto.subtle.digest(
     'SHA-256',
-    new TextEncoder().encode(`pakzy-ip-salt:${ip}`)
+    new TextEncoder().encode(`qokhims-ip-salt:${ip}`)
   );
   return bytesToHex(new Uint8Array(digest)).slice(0, 24);
 }

@@ -12,6 +12,9 @@ import {
   Gift,
   Coins,
   Award,
+  TrendingUp,
+  BarChart3,
+  Calendar,
 } from 'lucide-react';
 import type { OrderRecord } from '../../types';
 import { LoadingState } from '../../components/ui/States';
@@ -31,6 +34,53 @@ interface DashboardStats {
   pending_redemptions?: number;
 }
 
+interface SalesDataPoint {
+  period: string;
+  order_count: number;
+  revenue: number;
+}
+
+interface SalesByPeriod {
+  day: SalesDataPoint[];
+  month: SalesDataPoint[];
+  year: SalesDataPoint[];
+}
+
+function formatPeriodLabel(period: string, timeframe: 'day' | 'month' | 'year'): string {
+  if (!period) return '';
+  if (timeframe === 'day') {
+    const parts = period.split('-');
+    if (parts.length === 3) {
+      const day = parseInt(parts[2], 10);
+      const monthNames = [
+        'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
+        'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.',
+      ];
+      const mIdx = parseInt(parts[1], 10) - 1;
+      return `${day} ${monthNames[mIdx] || parts[1]}`;
+    }
+    return period;
+  }
+  if (timeframe === 'month') {
+    const parts = period.split('-');
+    if (parts.length === 2) {
+      const monthNames = [
+        'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
+        'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.',
+      ];
+      const mIdx = parseInt(parts[1], 10) - 1;
+      const yr = (parseInt(parts[0], 10) + 543) % 100;
+      return `${monthNames[mIdx] || parts[1]} '${yr}`;
+    }
+    return period;
+  }
+  if (timeframe === 'year') {
+    const yr = parseInt(period, 10);
+    return isNaN(yr) ? period : `ปี ${yr + 543}`;
+  }
+  return period;
+}
+
 const STATUS_BADGE: Record<string, { label: string; className: string }> = {
   pending: { label: 'รอดำเนินการ', className: 'bg-amber-100 text-amber-800' },
   confirmed: { label: 'รับงานแล้ว', className: 'bg-blue-100 text-blue-800' },
@@ -41,6 +91,9 @@ const STATUS_BADGE: Record<string, { label: string; className: string }> = {
 
 export const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [salesByPeriod, setSalesByPeriod] = useState<SalesByPeriod | null>(null);
+  const [timeframe, setTimeframe] = useState<'day' | 'month' | 'year'>('day');
+  const [hoveredPoint, setHoveredPoint] = useState<SalesDataPoint | null>(null);
   const [recentOrders, setRecentOrders] = useState<OrderRecord[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -49,6 +102,7 @@ export const AdminDashboard: React.FC = () => {
       .then((r) => r.json())
       .then((data) => {
         setStats(data.stats || null);
+        setSalesByPeriod(data.salesByPeriod || null);
         setRecentOrders(data.recentOrders || []);
       })
       .finally(() => setLoading(false));
@@ -58,12 +112,28 @@ export const AdminDashboard: React.FC = () => {
     return <LoadingState message="กำลังโหลดข้อมูลภาพรวมหลังบ้าน..." />;
   }
 
+  const currentSalesList = salesByPeriod ? salesByPeriod[timeframe] : [];
+  const totalRevenueInPeriod = currentSalesList.reduce(
+    (acc, p) => acc + Number(p.revenue || 0),
+    0
+  );
+  const totalOrdersInPeriod = currentSalesList.reduce(
+    (acc, p) => acc + Number(p.order_count || 0),
+    0
+  );
+  const avgOrderValue =
+    totalOrdersInPeriod > 0 ? totalRevenueInPeriod / totalOrdersInPeriod : 0;
+  const maxRevenue = Math.max(
+    ...currentSalesList.map((p) => Number(p.revenue || 0)),
+    1
+  );
+
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[var(--color-secondary)] flex items-center gap-2">
-            ภาพรวมระบบร้าน pakzy.o <CuteHeart className="w-5 h-5 text-[var(--color-primary)]" />
+            ภาพรวมระบบร้าน qokhims <CuteHeart className="w-5 h-5 text-[var(--color-primary)]" />
           </h1>
           <p className="text-xs sm:text-sm text-[var(--color-secondary-muted)]">
             จัดการสินค้า บริการ ฟอนต์ คำสั่งซื้อ รีวิว สมาชิกสะสมแต้ม และการตั้งค่าเว็บไซต์ในที่เดียว
@@ -251,6 +321,186 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* การ์ดสรุปยอดขายรวม (Total Sales) และกราฟยอดขาย */}
+      <div className="bg-white rounded-3xl border border-[var(--color-border)] p-6 shadow-2xs space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-rose-50 flex items-center justify-center text-[var(--color-primary)]">
+                <TrendingUp className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-[var(--color-secondary)]">
+                  สรุปยอดขายรวม (Total Sales)
+                </h2>
+                <p className="text-xs text-[var(--color-secondary-muted)]">
+                  ยอดขายจากคำสั่งซื้อและบิลทั้งหมดในระบบ (ไม่รวมรายการที่ยกเลิก)
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* สลับช่วงเวลา: รายวัน / รายเดือน / รายปี */}
+          <div className="flex items-center p-1 bg-[var(--color-bg)] rounded-2xl border border-[var(--color-border)] gap-1">
+            <button
+              type="button"
+              onClick={() => {
+                setTimeframe('day');
+                setHoveredPoint(null);
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
+                timeframe === 'day'
+                  ? 'bg-[var(--color-primary)] text-white shadow-2xs'
+                  : 'text-[var(--color-secondary-muted)] hover:text-[var(--color-secondary)]'
+              }`}
+            >
+              รายวัน (Day)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setTimeframe('month');
+                setHoveredPoint(null);
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
+                timeframe === 'month'
+                  ? 'bg-[var(--color-primary)] text-white shadow-2xs'
+                  : 'text-[var(--color-secondary-muted)] hover:text-[var(--color-secondary)]'
+              }`}
+            >
+              รายเดือน (Month)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setTimeframe('year');
+                setHoveredPoint(null);
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
+                timeframe === 'year'
+                  ? 'bg-[var(--color-primary)] text-white shadow-2xs'
+                  : 'text-[var(--color-secondary-muted)] hover:text-[var(--color-secondary)]'
+              }`}
+            >
+              รายปี (Year)
+            </button>
+          </div>
+        </div>
+
+        {/* ตัวเลขสรุปยอดของช่วงเวลาที่เลือก */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="bg-[var(--color-bg)] p-4 rounded-2xl border border-[var(--color-border)]/80">
+            <div className="text-xs text-[var(--color-secondary-muted)] font-medium">
+              ยอดขายรวม ({timeframe === 'day' ? 'ล่าสุด 30 วัน' : timeframe === 'month' ? 'ล่าสุด 12 เดือน' : 'ทุกปี'})
+            </div>
+            <div className="text-2xl font-bold text-[var(--color-primary)] mt-1">
+              ฿{totalRevenueInPeriod.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+          </div>
+          <div className="bg-[var(--color-bg)] p-4 rounded-2xl border border-[var(--color-border)]/80">
+            <div className="text-xs text-[var(--color-secondary-muted)] font-medium">
+              จำนวนคำสั่งซื้อ
+            </div>
+            <div className="text-2xl font-bold text-[var(--color-secondary)] mt-1">
+              {totalOrdersInPeriod.toLocaleString('th-TH')}{' '}
+              <span className="text-xs font-semibold text-[var(--color-secondary-muted)]">รายการ</span>
+            </div>
+          </div>
+          <div className="bg-[var(--color-bg)] p-4 rounded-2xl border border-[var(--color-border)]/80">
+            <div className="text-xs text-[var(--color-secondary-muted)] font-medium">
+              ยอดเฉลี่ยต่อออเดอร์ (AOV)
+            </div>
+            <div className="text-2xl font-bold text-[var(--color-secondary)] mt-1">
+              ฿{avgOrderValue.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+          </div>
+        </div>
+
+        {/* ข้อมูลจุดที่ชี้อยู่ (Tooltip Banner) */}
+        {hoveredPoint && (
+          <div className="p-3 bg-rose-50/70 border border-rose-200/60 rounded-2xl flex items-center justify-between text-xs text-[var(--color-secondary)] animate-fade-in">
+            <span className="font-bold flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-[var(--color-primary)]" />
+              {formatPeriodLabel(hoveredPoint.period, timeframe)} ({hoveredPoint.period})
+            </span>
+            <div className="flex items-center gap-3 font-semibold">
+              <span className="text-[var(--color-primary)] font-bold">
+                ฿{Number(hoveredPoint.revenue).toLocaleString('th-TH', { minimumFractionDigits: 2 })}
+              </span>
+              <span className="text-[var(--color-secondary-muted)]">
+                {hoveredPoint.order_count} ออเดอร์
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* กราฟแท่ง Pure CSS / SVG */}
+        {currentSalesList.length === 0 ? (
+          <div className="py-12 text-center text-xs text-[var(--color-secondary-muted)] bg-[var(--color-bg)] rounded-2xl">
+            ยังไม่มีข้อมูลยอดขายในช่วงเวลานี้
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <div className="h-56 pt-6 pb-2 px-2 flex items-end gap-2 sm:gap-3 overflow-x-auto border-b border-[var(--color-border)]">
+              {currentSalesList.map((point) => {
+                const rev = Number(point.revenue || 0);
+                const heightPercent = Math.max(6, Math.round((rev / maxRevenue) * 100));
+                const isHovered = hoveredPoint?.period === point.period;
+
+                return (
+                  <div
+                    key={point.period}
+                    className="flex-1 min-w-[36px] max-w-[56px] h-full flex flex-col justify-end items-center group relative cursor-pointer"
+                    onMouseEnter={() => setHoveredPoint(point)}
+                    onClick={() => setHoveredPoint(point)}
+                  >
+                    {/* Tooltip บอลลูนลอย */}
+                    <div
+                      className={`absolute -top-10 z-10 px-2 py-1 rounded-lg bg-[var(--color-secondary)] text-white text-[10px] whitespace-nowrap shadow-md pointer-events-none transition-opacity ${
+                        isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                      }`}
+                    >
+                      ฿{rev.toLocaleString('th-TH')} ({point.order_count})
+                    </div>
+
+                    {/* แท่งกราฟสีชมพูละมุน */}
+                    <div
+                      style={{ height: `${heightPercent}%` }}
+                      className={`w-full rounded-t-lg transition-all duration-300 ${
+                        isHovered
+                          ? 'bg-gradient-to-t from-[#c93e6c] to-[#e8638b] shadow-xs'
+                          : 'bg-gradient-to-t from-[var(--color-primary)] to-[#f9a8be] group-hover:from-[#d9537f] group-hover:to-[#f085a8]'
+                      }`}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* แกน X แสดงป้ายช่วงเวลา */}
+            <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto px-2 pt-1">
+              {currentSalesList.map((point) => (
+                <div
+                  key={point.period}
+                  className="flex-1 min-w-[36px] max-w-[56px] text-center"
+                >
+                  <span
+                    className={`text-[10px] sm:text-[11px] font-medium block truncate ${
+                      hoveredPoint?.period === point.period
+                        ? 'text-[var(--color-primary)] font-bold'
+                        : 'text-[var(--color-secondary-muted)]'
+                    }`}
+                    title={point.period}
+                  >
+                    {formatPeriodLabel(point.period, timeframe)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* รายการคำสั่งซื้อล่าสุด */}
       <div className="bg-white rounded-3xl border border-[var(--color-border)] p-6 shadow-2xs space-y-4">

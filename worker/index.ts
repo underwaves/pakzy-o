@@ -77,7 +77,7 @@ app.all('*', async (c) => {
       headers,
     });
   }
-  return c.text('pakzy.o Cloudflare Worker is running.', 200);
+  return c.text('qokhims Cloudflare Worker is running.', 200);
 });
 
 export default {

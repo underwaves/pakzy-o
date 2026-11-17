@@ -1,9 +1,9 @@
 {
-  "name": "pakzy-o",
+  "name": "qokhims",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "เว็บไซต์ร้านรับออกแบบงานกราฟิกและจำหน่ายฟอนต์ pakzy.o (Cloudflare Workers + D1 + R2 + React)",
+  "description": "เว็บไซต์ร้านรับออกแบบงานกราฟิกและจำหน่ายฟอนต์ qokhims (Cloudflare Workers + D1 + R2 + React)",
   "scripts": {
     "dev": "vite",
     "dev:worker": "wrangler dev --port 8787",

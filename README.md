@@ -1,16 +1,16 @@
-# 🌸 pakzy.o — เว็บไซต์สตูดิโอออกแบบงานกราฟิกมินิมอล & จำหน่ายฟอนต์ลายมือ
+# 🌸 qokhims — เว็บไซต์สตูดิโอออกแบบงานกราฟิกมินิมอล & จำหน่ายฟอนต์ลายมือ
 
-ระบบเว็บไซต์หน้าร้านและหลังบ้านแบบครบวงจรสำหรับร้าน **pakzy.o** พัฒนาบนโครงสร้างพื้นฐานของ **Cloudflare 100%** (Cloudflare Workers + Hono + D1 SQLite + R2 Object Storage + Workers Static Assets + React + TypeScript + Tailwind CSS)
+ระบบเว็บไซต์หน้าร้านและหลังบ้านแบบครบวงจรสำหรับร้าน **qokhims** พัฒนาบนโครงสร้างพื้นฐานของ **Cloudflare 100%** (Cloudflare Workers + Hono + D1 SQLite + R2 Object Storage + Workers Static Assets + React + TypeScript + Tailwind CSS)
 
-- **Production URL:** https://pakzy-o.wo-nad.workers.dev
-- **Admin Portal:** https://pakzy-o.wo-nad.workers.dev/admin
+- **Production URL:** https://qokhims.wo-nad.workers.dev
+- **Admin Portal:** https://qokhims.wo-nad.workers.dev/admin
 
 ---
 
 ## 1. โครงสร้างโปรเจกต์ (Project Structure)
 
 ```text
-pakzy.o/
+qokhims/
 ├── docs/                          # เอกสารส่งมอบสำหรับลูกค้าและเจ้าของร้าน
 │   ├── คู่มือแอดมิน.md             # คู่มือการใช้งานระบบหลังบ้านทีละขั้นตอน (ภาษาง่าย)
 │   ├── ข้อมูลที่ต้องส่งเพิ่ม.md     # เช็กลิสต์ข้อมูลจริงและรายการ Placeholder ที่รอเปลี่ยน
@@ -24,8 +24,8 @@ pakzy.o/
 │   ├── 0006_bill_system.sql       # เพิ่มระบบบิลและคำสั่งซื้อผ่าน LINE
 │   └── 0007_order_tracking_tokens.sql # เพิ่ม tracking_token_hash ป้องกันการเดารหัสออเดอร์และรักษาความเป็นส่วนตัว
 ├── public/                        # ไฟล์ Static สาธารณะ
-│   ├── favicon.svg                # ไอคอนเว็บไซต์รูปดอกไม้ประจำร้าน pakzy.o
-│   ├── pakzy-profile.png          # รูปโปรไฟล์ร้านสำหรับแสดงผลและแชร์ลิงก์ (Open Graph)
+│   ├── favicon.svg                # ไอคอนเว็บไซต์รูปดอกไม้ประจำร้าน qokhims
+│   ├── qokhims-profile.png        # รูปโปรไฟล์ร้านสำหรับแสดงผลและแชร์ลิงก์ (Open Graph)
 │   ├── robots.txt                 # กำหนดสิทธิ์ Search Engine Crawler
 │   └── sitemap.xml                # แผนผังเว็บไซต์สำหรับ SEO
 ├── scripts/
@@ -228,9 +228,9 @@ npx wrangler deploy --dry-run
 ## 7. การผูกโดเมนส่วนตัว (Custom Domain)
 
 1. เข้าไปที่ [Cloudflare Dashboard](https://dash.cloudflare.com/) → เลือกเมนู **Workers & Pages**
-2. คลิกที่โปรเจกต์ **`pakzy-o`** → ไปที่แท็บ **Settings** → หัวข้อ **Domains & Routes**
+2. คลิกที่โปรเจกต์ **`qokhims`** → ไปที่แท็บ **Settings** → หัวข้อ **Domains & Routes**
 3. คลิกปุ่ม **+ Add** → เลือก **Custom Domain**
-4. พิมพ์ชื่อโดเมนที่ต้องการ (เช่น `pakzy.com` หรือ `www.pakzy.com` ซึ่งอยู่ในบัญชี Cloudflare เดียวกัน) แล้วกด **Add domain**
+4. พิมพ์ชื่อโดเมนที่ต้องการ (เช่น `qokhims.com` หรือ `www.qokhims.com` ซึ่งอยู่ในบัญชี Cloudflare เดียวกัน) แล้วกด **Add domain**
 5. ระบบ Cloudflare จะออกใบรับรอง SSL (HTTPS) และผูก DNS ให้อัตโนมัติภายใน 1–2 นาที
 
 ---
@@ -241,7 +241,7 @@ npx wrangler deploy --dry-run
 
 ```bash
 # สำรองข้อมูลทั้งหมด (ทั้งโครงสร้างตารางและข้อมูลคำสั่งซื้อ/สินค้า/รีวิว) จาก Production
-npx wrangler d1 export pakzy-o-db --remote --output=backup-pakzy-o.sql
+npx wrangler d1 export pakzy-o-db --remote --output=backup-qokhims.sql
 
 # สำรองเฉพาะข้อมูล (ไม่รวมคำสั่ง CREATE TABLE)
 npx wrangler d1 export pakzy-o-db --remote --no-schema --output=backup-data-only.sql
@@ -251,7 +251,7 @@ npx wrangler d1 export pakzy-o-db --remote --no-schema --output=backup-data-only
 
 ## 9. สถาปัตยกรรมระบบสะสมแต้ม (Loyalty Points System)
 
-ระบบสะสมแต้มของร้าน pakzy.o ถูกออกแบบให้ไม่กระทบกับโฟลว์การสั่งซื้อเดิม และยึดตามหลักความปลอดภัยและมาตรฐานข้อมูล:
+ระบบสะสมแต้มของร้าน qokhims ถูกออกแบบให้ไม่กระทบกับโฟลว์การสั่งซื้อเดิม และยึดตามหลักความปลอดภัยและมาตรฐานข้อมูล:
 
 - **No-login Membership:** ลูกค้าเปิดบัตรสะสมแต้มได้ฟรีที่หน้า `/points` โดยไม่ต้องใช้อีเมลหรือรหัสผ่านยาว ระบบจะสุ่มสร้างรหัสสมาชิกอ่านง่าย (เช่น `PZ-XXXX` ตัวอักษรไม่กำกวม `[2-9A-HJ-NP-Z]`) พร้อมตั้งรหัส PIN 4–6 หลัก ซึ่งถูก Hash ด้วย **PBKDF2-SHA256 (100,000 รอบ + 16-byte Salt)**
 - **Idempotent Points Awarding:** แต้มจะถูกคำนวณและแจกเข้าบัญชีลูกค้า **เฉพาะเมื่อแอดมินเปลี่ยนสถานะคำสั่งซื้อเป็น "เสร็จสิ้น" (completed)** เท่านั้น (ไม่แจกตอนส่งบรีฟ) และป้องกันการแจกแต้มซ้ำซ้อนด้วยฟิลด์ `points_awarded_at`

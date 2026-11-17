@@ -83,11 +83,11 @@ export const AdminLayout: React.FC = () => {
       <div className="lg:hidden bg-white border-b border-[var(--color-border)] px-4 h-16 flex items-center justify-between sticky top-0 z-30">
         <div className="flex items-center gap-2">
           <img
-            src="/pakzy-profile.png"
-            alt="pakzy.o"
+            src="/qokhims-profile.png"
+            alt="qokhims"
             className="w-8 h-8 rounded-full object-cover border border-[var(--color-border)]"
           />
-          <span className="font-bold text-[var(--color-secondary)]">pakzy.o Admin</span>
+          <span className="font-bold text-[var(--color-secondary)]">qokhims Admin</span>
         </div>
         <button
           onClick={() => setSidebarOpen((p) => !p)}
@@ -107,13 +107,13 @@ export const AdminLayout: React.FC = () => {
         <div className="p-6 border-b border-[var(--color-border)]/70">
           <div className="flex items-center gap-2.5">
             <img
-              src="/pakzy-profile.png"
-              alt="pakzy.o"
+              src="/qokhims-profile.png"
+              alt="qokhims"
               className="w-10 h-10 rounded-full object-cover border border-[var(--color-border)] shadow-2xs shrink-0"
             />
             <div>
               <h1 className="font-bold text-lg text-[var(--color-secondary)] leading-tight">
-                pakzy.o
+                qokhims
               </h1>
               <p className="text-xs text-[var(--color-secondary-muted)]">
                 ระบบจัดการหลังบ้าน ({adminUser.username})

@@ -3,7 +3,7 @@ import { getCookie } from 'hono/cookie';
 import type { Env, AppVariables } from '../types';
 import { verifyJwt } from '../utils/crypto';
 
-export const ADMIN_COOKIE_NAME = 'pakzy_admin_token';
+export const ADMIN_COOKIE_NAME = 'qokhims_admin_token';
 export const MIN_JWT_SECRET_LENGTH = 32;
 
 /**
@@ -24,7 +24,7 @@ export function getJwtSecret(env: Env): string | null {
     if (secret && secret.length >= 16) {
       return secret;
     }
-    return 'pakzy-local-dev-jwt-secret-key-at-least-32-chars-long';
+    return 'qokhims-local-dev-jwt-secret-key-at-least-32-chars-long';
   }
 
   // บน Production หรือสภาพแวดล้อมที่ไม่ได้ระบุ dev/test: บันทึก Error และ Fail-Closed โดยไม่เปิดเผย secret

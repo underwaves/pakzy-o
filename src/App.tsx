@@ -17,7 +17,7 @@ import { HomePage } from './pages/HomePage';
 import { LoadingState } from './components/ui/States';
 import {
   CuteHeart,
-  PakzyMascotSticker,
+  QokhimsMascotSticker,
   CardCornerDoodle,
   InitialSplashLoader,
 } from './components/ui/Decorations';
@@ -118,11 +118,11 @@ const PublicLayout: React.FC = () => {
   const { settings, fonts } = useSite();
   return (
     <div className="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-secondary)]">
-      <InitialSplashLoader siteName={settings.site_name || 'pakzy.o'} fonts={fonts} />
+      <InitialSplashLoader siteName={settings.site_name || 'qokhims'} fonts={fonts} />
       <Navbar />
       {/* Page Transition นุ่ม ๆ ทุกครั้งที่เปลี่ยนหน้า */}
       <main key={pathname} className="flex-1 animate-fade-in">
-        <Suspense fallback={<LoadingState message="กำลังเปิดหน้าเว็บ pakzy.o สักครู่นะคะ ♡" />}>
+        <Suspense fallback={<LoadingState message="กำลังเปิดหน้าเว็บ qokhims สักครู่นะคะ ♡" />}>
           <Outlet />
         </Suspense>
       </main>
@@ -137,7 +137,7 @@ const NotFoundPage: React.FC = () => (
     <div className="relative bg-white rounded-[2.25rem] border-2 border-[var(--color-border)] p-8 sm:p-10 shadow-xs space-y-4 overflow-hidden">
       <CardCornerDoodle corner="top-right" variant="star" />
       <CardCornerDoodle corner="bottom-left" variant="flower" />
-      <PakzyMascotSticker mood="lost" className="w-28 h-28 mx-auto" />
+      <QokhimsMascotSticker mood="lost" className="w-28 h-28 mx-auto" />
       <span className="inline-block px-3.5 py-1 rounded-full bg-[var(--color-primary-light)] text-xs font-bold text-[var(--color-primary)]">
         404 Page Not Found
       </span>
@@ -145,7 +145,7 @@ const NotFoundPage: React.FC = () => (
         แงง~ น้องกระต่ายหาหน้านี้ไม่เจอค่ะ
       </h1>
       <p className="text-xs sm:text-sm text-[var(--color-secondary-muted)] leading-relaxed">
-        ลิงก์ที่คุณเปิดอาจถูกย้ายหรือพิมพ์ผิด ไม่เป็นไรนะคะ กลับไปดูบริการออกแบบป้ายและฟอนต์น่ารัก ๆ ที่หน้าแรกของร้าน pakzy.o กันเถอะ ♡
+        ลิงก์ที่คุณเปิดอาจถูกย้ายหรือพิมพ์ผิด ไม่เป็นไรนะคะ กลับไปดูบริการออกแบบป้ายและฟอนต์น่ารัก ๆ ที่หน้าแรกของร้าน qokhims กันเถอะ ♡
       </p>
       <div className="pt-2">
         <Link
@@ -153,7 +153,7 @@ const NotFoundPage: React.FC = () => (
           className="pkz-order-btn inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[var(--color-primary)] text-white text-sm font-semibold hover:opacity-95 transition shadow-xs"
         >
           <CuteHeart className="w-4 h-4" />
-          <span>กลับสู่หน้าแรก pakzy.o</span>
+          <span>กลับสู่หน้าแรก qokhims</span>
         </Link>
       </div>
     </div>
@@ -166,7 +166,7 @@ export const App: React.FC = () => {
       <SiteProvider>
         <BrowserRouter>
           <ScrollToTop />
-          <Suspense fallback={<LoadingState message="กำลังโหลดระบบ pakzy.o สักครู่นะคะ ♡" />}>
+          <Suspense fallback={<LoadingState message="กำลังโหลดระบบ qokhims สักครู่นะคะ ♡" />}>
             <Routes>
               {/* หน้าบ้านสำหรับลูกค้า */}
               <Route element={<PublicLayout />}>

@@ -16,7 +16,7 @@ import { CuteHeart, CuteFlower, CuteSparkle, BrandWordmark } from '../ui/Decorat
 export const Footer: React.FC = () => {
   const { settings } = useSite();
 
-  const igHandle = (settings.contact_ig || 'pakzy.o').replace(/^@/, '').trim();
+  const igHandle = (settings.contact_ig || 'qokhims').replace(/^@/, '').trim();
   const lineHandle = (settings.contact_line || '@280npxvj').trim();
   const lineUrlHandle = lineHandle.startsWith('@') ? lineHandle : `@${lineHandle}`;
 
@@ -34,17 +34,17 @@ export const Footer: React.FC = () => {
             <Link to="/" className="inline-flex items-center gap-3 group">
               <img
                 src={
-                  settings.logo_url && settings.logo_url !== '/r2/seed/logo-pakzy.svg'
+                  settings.logo_url && !settings.logo_url.includes('seed/logo-')
                     ? settings.logo_url
-                    : '/pakzy-profile.png'
+                    : '/qokhims-profile.png'
                 }
-                alt={settings.site_name || 'pakzy.o'}
+                alt={settings.site_name || 'qokhims'}
                 className="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-border)] shadow-xs group-hover:scale-105 transition-transform shrink-0"
               />
               <div>
                 <span className="text-2xl font-bold text-[var(--color-secondary)] block leading-tight">
                   <BrandWordmark
-                    name={settings.site_name || 'pakzy.o'}
+                    name={settings.site_name || 'qokhims'}
                     dotVariant="dot"
                     dotClassName="w-4 h-4 mx-0.5 -translate-y-0.5"
                   />
@@ -208,7 +208,7 @@ export const Footer: React.FC = () => {
 
         <div className="mt-10 pt-6 border-t border-[var(--color-border)]/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--color-secondary-muted)]">
           <p className="flex items-center gap-1">
-            © {new Date().getFullYear()} {settings.site_name || 'pakzy.o'}. สงวนลิขสิทธิ์ผลงานออกแบบและฟอนต์ทั้งหมด{' '}
+            © {new Date().getFullYear()} {settings.site_name || 'qokhims'}. สงวนลิขสิทธิ์ผลงานออกแบบและฟอนต์ทั้งหมด{' '}
             <CuteHeart className="w-3.5 h-3.5" />
           </p>
           <Link

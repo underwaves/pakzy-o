@@ -21,7 +21,7 @@ import {
 export const ContactPage: React.FC = () => {
   const { settings } = useSite();
 
-  const igHandle = (settings.contact_ig || 'pakzy.o').replace(/^@/, '').trim();
+  const igHandle = (settings.contact_ig || 'qokhims').replace(/^@/, '').trim();
   const lineHandle = (settings.contact_line || '@280npxvj').trim();
   const lineUrlHandle = lineHandle.startsWith('@') ? lineHandle : `@${lineHandle}`;
   const facebookValue = settings.contact_facebook?.trim() || '';
@@ -55,7 +55,7 @@ export const ContactPage: React.FC = () => {
           <CuteFlower className="w-3.5 h-3.5" /> Contact Us
         </span>
         <h1 className="text-2xl sm:text-4xl font-bold text-[var(--color-secondary)]">
-          ช่องทางติดต่อร้าน {settings.site_name || 'pakzy.o'}
+          ช่องทางติดต่อร้าน {settings.site_name || 'qokhims'}
         </h1>
         <CuteSectionDivider />
         <p className="text-sm sm:text-base text-[var(--color-secondary-muted)]">
@@ -213,7 +213,7 @@ export const ContactPage: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-xl font-bold text-[var(--color-secondary)] flex items-center gap-2">
             <CuteHeart className="w-5 h-5 text-[var(--color-primary)]" />
-            ขั้นตอนการสั่งงานกับร้าน pakzy.o
+            ขั้นตอนการสั่งงานกับร้าน qokhims
           </h2>
           <span className="text-xs font-medium text-[var(--color-secondary-muted)] inline-flex items-center gap-1.5">
             <Clock className="w-4 h-4 text-[var(--color-primary)]" />

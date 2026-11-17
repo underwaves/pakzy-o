@@ -39,18 +39,18 @@ interface SiteContextValue {
 }
 
 const DEFAULT_SETTINGS: SiteSettingsMap = {
-  site_name: 'pakzy.o',
+  site_name: 'qokhims',
   site_tagline: 'สตูดิโอออกแบบงานกราฟิกมินิมอล & ฟอนต์ลายมือสุดคิวท์',
-  logo_url: '/r2/seed/logo-pakzy.svg',
+  logo_url: '/r2/seed/logo-qokhims.svg',
   hero_badge: '✿ Graphic Design & Cute Thai Fonts ✿',
-  hero_title: 'เติมความละมุนให้แบรนด์คุณ ด้วยงานดีไซน์และฟอนต์จาก pakzy.o',
+  hero_title: 'เติมความละมุนให้แบรนด์คุณ ด้วยงานดีไซน์และฟอนต์จาก qokhims',
   hero_subtitle:
     'รับออกแบบป้ายแม่ค้าออนไลน์ Rich Menu แต่งรูปสินค้า ลายน้ำ และจำหน่ายฟอนต์ลายมือไทยอ่านง่าย สไตล์มินิมอลโทนอบอุ่น ใส่ใจทุกรายละเอียด',
   about_text:
     'เราคือสตูดิโอออกแบบกราฟิกขนาดกะทัดรัดที่หลงใหลในความเรียบง่ายแต่น่ารัก ทุกชิ้นงานออกแบบโดยเน้นความโปร่งสบายตา อ่านง่าย และช่วยสร้างภาพจำที่อบอุ่นให้กับร้านค้าของคุณ',
   queue_status_text: 'คิวว่างพร้อมรับงาน ✿ ส่งงานไว 1-3 วัน',
   queue_status_state: 'open',
-  contact_ig: 'pakzy.o',
+  contact_ig: 'qokhims',
   contact_line: '@280npxvj',
   contact_facebook: '',
   contact_tiktok: '',
@@ -88,7 +88,10 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Dark Mode โทนน้ำตาลเข้ม จำค่าไว้ใน localStorage
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     try {
-      return localStorage.getItem('pakzy_dark_mode') === 'dark';
+      const mode =
+        localStorage.getItem('qokhims_dark_mode') ||
+        localStorage.getItem('pakzy_dark_mode');
+      return mode === 'dark';
     } catch {
       return false;
     }
@@ -102,7 +105,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
       root.classList.remove('dark');
     }
     try {
-      localStorage.setItem('pakzy_dark_mode', isDarkMode ? 'dark' : 'light');
+      localStorage.setItem('qokhims_dark_mode', isDarkMode ? 'dark' : 'light');
     } catch {
       // ignore storage errors
     }
@@ -114,7 +117,9 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [cartItems, setCartItems] = useState<OrderCartItem[]>(() => {
     try {
-      const saved = localStorage.getItem('pakzy_order_cart');
+      const saved =
+        localStorage.getItem('qokhims_order_cart') ||
+        localStorage.getItem('pakzy_order_cart');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -123,7 +128,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     try {
-      localStorage.setItem('pakzy_order_cart', JSON.stringify(cartItems));
+      localStorage.setItem('qokhims_order_cart', JSON.stringify(cartItems));
     } catch {
       // ignore
     }
@@ -132,7 +137,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // โหลด @font-face ของร้านทุกฟอนต์ไว้ส่วนกลาง เพื่อให้ทั้ง Hero หน้าแรกและหน้าทดลองฟอนต์เรียกใช้ได้ทันที
   useEffect(() => {
     if (fonts.length === 0) return;
-    const styleId = 'pakzy-r2-dynamic-fontfaces';
+    const styleId = 'qokhims-r2-dynamic-fontfaces';
     let styleEl = document.getElementById(styleId) as HTMLStyleElement | null;
     if (!styleEl) {
       styleEl = document.createElement('style');

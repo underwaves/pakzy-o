@@ -25,7 +25,6 @@ import {
   CuteWashiTape,
   CardCornerDoodle,
   RevealOnScroll,
-  FontMarqueeStrip,
   BrandWordmark,
 } from '../components/ui/Decorations';
 import { LoadingState, ErrorState } from '../components/ui/States';
@@ -60,10 +59,6 @@ export const HomePage: React.FC = () => {
   const heroSectionRef = useRef<HTMLElement | null>(null);
   const [sparkles, setSparkles] = useState<HeroSparkleParticle[]>([]);
   const lastSparkleTimeRef = useRef<number>(0);
-
-  // Scroll-drawn SVG Path สำหรับส่วน 4 ขั้นตอนสั่งงาน
-  const stepsSectionRef = useRef<HTMLDivElement | null>(null);
-  const [stepsScrollProgress, setStepsScrollProgress] = useState<number>(0.25);
 
   const heroFontsList =
     fonts.length > 0
@@ -125,30 +120,6 @@ export const HomePage: React.FC = () => {
     return () => clearInterval(timer);
   }, [heroFontsList.length]);
 
-  // คำนวณระยะการวาดเส้น SVG ขั้นตอนสั่งงานตามการ Scroll
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setStepsScrollProgress(1);
-      return;
-    }
-
-    const handleScroll = () => {
-      const el = stepsSectionRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight || 800;
-      // เริ่มวาดเมื่อส่วนนี้เข้ามาในจอ 85% จนถึงกลางจอ
-      const raw = (vh * 0.85 - rect.top) / (rect.height + vh * 0.25);
-      const clamped = Math.max(0.08, Math.min(1, raw));
-      setStepsScrollProgress(clamped);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const updateWordmarkPointer = (clientX: number) => {
     const el = wordmarkRef.current;
     if (!el) return;
@@ -197,7 +168,7 @@ export const HomePage: React.FC = () => {
     return `'${currentHeroFont.family_name}', '${fallback}', 'Anuphan', 'Prompt', sans-serif`;
   };
 
-  const siteBrandText = settings.site_name || 'pakzy.o';
+  const siteBrandText = settings.site_name || 'qokhims';
   const brandChars = siteBrandText.split('');
 
   const featuredProducts = products.filter((p) => p.is_featured === 1).slice(0, 6);
@@ -206,7 +177,7 @@ export const HomePage: React.FC = () => {
 
   const lineHandle = (settings.contact_line || '@280npxvj').trim();
   const lineUrlHandle = lineHandle.startsWith('@') ? lineHandle : `@${lineHandle}`;
-  const igHandle = (settings.contact_ig || 'pakzy.o').replace(/^@/, '').trim();
+  const igHandle = (settings.contact_ig || 'qokhims').replace(/^@/, '').trim();
 
   // สถานะคิวงานที่แก้ไขได้จากหลังบ้าน
   const queueText =
@@ -462,22 +433,22 @@ export const HomePage: React.FC = () => {
                   settings.hero_image_url !== '/r2/seed/product-banner.svg' ? (
                     <img
                       src={settings.hero_image_url}
-                      alt="รูปโชว์หน้าร้าน pakzy.o"
+                      alt="รูปโชว์หน้าร้าน qokhims"
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    /* แสดงรูปโปรไฟล์ประจำร้าน pakzy.o (วงกลมสีน้ำตาล ดอกไม้สีชมพูเกสรเหลือง) */
+                    /* แสดงรูปโปรไฟล์ประจำร้าน qokhims */
                     <div className="w-full h-full bg-gradient-to-br from-[#fff7fa] via-[#fcebf2] to-[#f5e6df] flex flex-col items-center justify-center p-5 text-center relative">
                       <div className="relative mb-3">
                         <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1.5 bg-white/90 border-2 border-[var(--color-border)] shadow-md flex items-center justify-center">
                           <img
                             src={
                               settings.logo_url &&
-                              settings.logo_url !== '/r2/seed/logo-pakzy.svg'
+                              !settings.logo_url.includes('seed/logo-')
                                 ? settings.logo_url
-                                : '/pakzy-profile.png'
+                                : '/qokhims-profile.png'
                             }
-                            alt={settings.site_name || 'pakzy.o'}
+                            alt={settings.site_name || 'qokhims'}
                             className="w-full h-full rounded-full object-cover"
                           />
                         </div>
@@ -487,13 +458,13 @@ export const HomePage: React.FC = () => {
                       </div>
                       <h3 className="text-lg sm:text-xl font-bold text-[var(--color-secondary)] tracking-tight flex items-center justify-center">
                         <span>@</span>
-                        <BrandWordmark name={settings.site_name || 'pakzy.o'} dotVariant="dot" />
+                        <BrandWordmark name={settings.site_name || 'qokhims'} dotVariant="dot" />
                       </h3>
                       <p className="text-xs text-[var(--color-secondary-muted)] mt-0.5 font-medium">
                         รับออกแบบป้ายมินิมอล • Rich Menu • ฟอนต์ลายมือ ♡
                       </p>
                       <div className="mt-2.5 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-[var(--color-border)] text-[11px] font-semibold text-[var(--color-primary)]">
-                        <span>IG: {settings.contact_ig || 'pakzy.o'}</span>
+                        <span>IG: {settings.contact_ig || 'qokhims'}</span>
                         <span>•</span>
                         <span>LINE: {settings.contact_line || '@280npxvj'}</span>
                       </div>
@@ -504,11 +475,11 @@ export const HomePage: React.FC = () => {
                   <div className="flex items-center gap-2.5">
                     <img
                       src={
-                        settings.logo_url && settings.logo_url !== '/r2/seed/logo-pakzy.svg'
+                        settings.logo_url && !settings.logo_url.includes('seed/logo-')
                           ? settings.logo_url
-                          : '/pakzy-profile.png'
+                          : '/qokhims-profile.png'
                       }
-                      alt={settings.site_name || 'pakzy.o'}
+                      alt={settings.site_name || 'qokhims'}
                       className="w-10 h-10 rounded-full object-cover border border-[var(--color-border)] shadow-2xs shrink-0"
                     />
                     <div>
@@ -516,7 +487,7 @@ export const HomePage: React.FC = () => {
                         <CuteFlower className="w-3.5 h-3.5" /> สตูดิโอออกแบบกราฟิก & ฟอนต์
                       </span>
                       <h2 className="text-base sm:text-lg font-bold text-[var(--color-secondary)]">
-                        <BrandWordmark name={settings.site_name || 'pakzy.o'} dotVariant="dot" />{' '}
+                        <BrandWordmark name={settings.site_name || 'qokhims'} dotVariant="dot" />{' '}
                         Studio ♡
                       </h2>
                     </div>
@@ -534,15 +505,8 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Signature #3: Marquee Strip แถบข้อความวิ่งช้า ๆ เปลี่ยนฟอนต์วนจากฟอนต์ของร้าน */}
-      <FontMarqueeStrip
-        fonts={fonts}
-        text="ตัวอักษรคือตัวเอกของร้าน • ออกแบบป้ายมินิมอล Rich Menu และฟอนต์ลายมือไทยสุดคิวท์"
-        variant="pink"
-      />
-
       {/* 2. รวมผลงานออกแบบ (Google Drive Portfolio Showcase) */}
-      <RevealOnScroll className="max-w-6xl mx-auto px-4 sm:px-6">
+      <RevealOnScroll className="max-w-6xl mx-auto px-4 sm:px-6 pt-2 sm:pt-4">
         <div className="relative overflow-hidden pkz-card rounded-[2.5rem] p-6 sm:p-10 lg:p-12 border-2 border-[var(--color-border)] shadow-xs">
           <CuteWashiTape />
           <CardCornerDoodle variant="flower" position="top-right" />
@@ -554,7 +518,7 @@ export const HomePage: React.FC = () => {
                 <FolderOpen className="w-3.5 h-3.5" /> Design Portfolio & Showcase
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-secondary)]">
-                รวมผลงานออกแบบร้าน <BrandWordmark name={settings.site_name || 'pakzy.o'} dotVariant="dot" />
+                รวมผลงานออกแบบร้าน <BrandWordmark name={settings.site_name || 'qokhims'} dotVariant="dot" />
               </h2>
               <p className="text-sm sm:text-base text-[var(--color-secondary-muted)] leading-relaxed">
                 ชมตัวอย่างผลงานออกแบบป้ายแม่ค้าออนไลน์, ป้ายเลขบัญชี, Rich Menu LINE OA, แต่งรูปสินค้า และงานกราฟิกทั้งหมดที่ทางร้านเคยทำให้ลูกค้าได้ในโฟลเดอร์ Google Drive รวมผลงานค่ะ
@@ -573,7 +537,7 @@ export const HomePage: React.FC = () => {
                 <a
                   href={
                     settings.portfolio_drive_url ||
-                    'https://drive.google.com/drive/folders/placeholder-pakzy-portfolio'
+                    'https://drive.google.com/drive/folders/placeholder-qokhims-portfolio'
                   }
                   target="_blank"
                   rel="noopener noreferrer"
@@ -662,12 +626,9 @@ export const HomePage: React.FC = () => {
         )}
       </RevealOnScroll>
 
-      {/* 4. ลูกเล่นรอง: ส่วนขั้นตอนสั่งงาน เส้น SVG วาดตามการ Scroll (stroke-dashoffset) มีโหนดหัวใจ/ดาว 3 ขั้น */}
+      {/* 4. ส่วน 3 ขั้นตอนสั่งงาน (แสดงสีไฮไลต์ทั้ง 3 ขั้นตอนอย่างชัดเจนเท่ากันทุกหน้าจอ) */}
       <RevealOnScroll className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div
-          ref={stepsSectionRef}
-          className="pkz-card rounded-[2.2rem] p-6 sm:p-10 lg:p-12 space-y-8"
-        >
+        <div className="pkz-card rounded-[2.2rem] p-6 sm:p-10 lg:p-12 space-y-8">
           <div className="text-center max-w-xl mx-auto space-y-2">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[var(--color-primary-light)] text-xs font-semibold text-[var(--color-primary)]">
               <CuteHeart className="w-3.5 h-3.5" /> How To Order
@@ -680,66 +641,30 @@ export const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="relative">
-            {/* เส้น SVG วาดตามการ Scroll เชื่อม 3 โหนดบนจอ Desktop */}
-            <svg
-              viewBox="0 0 900 40"
-              fill="none"
-              className="hidden lg:block w-full h-10 mb-2 pointer-events-none select-none"
-              aria-hidden="true"
-            >
-              {/* เส้นประพื้นหลัง */}
-              <path
-                d="M 150 20 C 300 4, 380 36, 450 20 C 520 4, 600 36, 750 20"
-                stroke="#eed5de"
-                strokeWidth="3"
-                strokeDasharray="6 6"
-                strokeLinecap="round"
-              />
-              {/* เส้นหลักที่วาดตามค่า stepsScrollProgress */}
-              <path
-                d="M 150 20 C 300 4, 380 36, 450 20 C 520 4, 600 36, 750 20"
-                stroke="#ec7a9a"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeDasharray="600"
-                strokeDashoffset={Math.round(600 * (1 - stepsScrollProgress))}
-                style={{ transition: 'stroke-dashoffset 0.15s ease-out' }}
-              />
-            </svg>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {orderSteps.map((st, idx) => {
-                const reached = stepsScrollProgress >= (idx + 0.25) / orderSteps.length;
-                return (
-                  <div
-                    key={st.step}
-                    className={`rounded-3xl p-5 border-2 transition-all ${
-                      reached
-                        ? 'bg-[var(--color-bg)] border-[var(--color-primary)] shadow-2xs'
-                        : 'bg-white border-[var(--color-border)] opacity-85'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-primary-light)] text-xs font-bold text-[var(--color-secondary)] border border-[var(--color-border)]">
-                        {st.nodeKind === 'heart' ? (
-                          <CuteHeart className="w-3.5 h-3.5" />
-                        ) : (
-                          <CuteSparkle className="w-3.5 h-3.5" />
-                        )}
-                        STEP {st.step}
-                      </span>
-                    </div>
-                    <h3 className="text-base font-bold text-[var(--color-secondary)] mb-1.5">
-                      {st.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[var(--color-secondary-muted)] leading-relaxed">
-                      {st.desc}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {orderSteps.map((st) => (
+              <div
+                key={st.step}
+                className="rounded-3xl p-5 border-2 bg-[var(--color-bg)] border-[var(--color-primary)] shadow-2xs transition-all hover:-translate-y-1 hover:shadow-xs"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-primary-light)] text-xs font-bold text-[var(--color-secondary)] border border-[var(--color-border)]">
+                    {st.nodeKind === 'heart' ? (
+                      <CuteHeart className="w-3.5 h-3.5" />
+                    ) : (
+                      <CuteSparkle className="w-3.5 h-3.5" />
+                    )}
+                    STEP {st.step}
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-[var(--color-secondary)] mb-1.5">
+                  {st.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-[var(--color-secondary-muted)] leading-relaxed">
+                  {st.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </RevealOnScroll>
@@ -753,7 +678,7 @@ export const HomePage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
                 <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[var(--color-primary-light)] text-xs font-semibold text-[var(--color-primary)] border border-[var(--color-border)]">
-                  <Stamp className="w-3.5 h-3.5" /> Pakzy Loyalty Stamp Card
+                  <Stamp className="w-3.5 h-3.5" /> Qokhims Loyalty Stamp Card
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-secondary)]">
                   สะสมแต้มทุกออเดอร์ แลกรับส่วนลดและของรางวัลสุดคิวท์ ♡
@@ -783,7 +708,7 @@ export const HomePage: React.FC = () => {
                 <div className="p-5 rounded-3xl bg-gradient-to-br from-[#fffaf8] to-[#fceef2] border-2 border-[var(--color-border)] shadow-xs space-y-4 text-center">
                   <div className="flex items-center justify-between text-xs pb-2 border-b border-dashed border-[var(--color-border)]">
                     <span className="font-bold text-[var(--color-secondary)]">
-                      🌸 บัตรสะสมแสตมป์ pakzy.o
+                      🌸 บัตรสะสมแสตมป์ qokhims
                     </span>
                     <span className="px-2 py-0.5 rounded-full bg-[var(--color-primary-light)] text-[var(--color-primary)] font-bold text-[10px]">
                       PZ-MEMBER
@@ -898,7 +823,7 @@ export const HomePage: React.FC = () => {
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-secondary)]">
             พร้อมเริ่มงานดีไซน์น่ารัก ๆ กับ{' '}
-            <BrandWordmark name={settings.site_name || 'pakzy.o'} dotVariant="dot" />{' '}
+            <BrandWordmark name={settings.site_name || 'qokhims'} dotVariant="dot" />{' '}
             หรือยังคะ?
           </h2>
           <p className="text-sm sm:text-base text-[var(--color-secondary-muted)] max-w-xl mx-auto">

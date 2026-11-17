@@ -3,8 +3,7 @@
  * ออกแบบให้มีระยะขอบ (Padding) โปร่งสบายตา ลายเส้นวาดมือสีน้ำตาลเข้มเติมชมพูอ่อน ไม่ชนขอบการ์ดและไม่ทับป้ายกำกับ
  */
 
-const SEED_SVGS: Record<string, string> = {
-  'seed/logo-pakzy.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+const QOKHIMS_LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
     <defs>
       <linearGradient id="pkzGrad" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%" stop-color="#fde8ef"/>
@@ -25,10 +24,14 @@ const SEED_SVGS: Record<string, string> = {
       <circle cx="0" cy="0" r="11" fill="#fcb7e8" />
       <ellipse cx="1" cy="1" rx="5.5" ry="7.2" fill="#fff6bd" transform="rotate(12)" />
     </g>
-    <text x="76" y="47" font-family="Prompt, Kanit, sans-serif" font-size="27" font-weight="700" fill="#4a3228">pakzy.o</text>
+    <text x="76" y="47" font-family="Prompt, Kanit, sans-serif" font-size="27" font-weight="700" fill="#4a3228">qokhims</text>
     <circle cx="192" cy="32" r="5" fill="#fcb7e8" stroke="#4a3228" stroke-width="1.5"/>
     <path d="M210 42 L212 47 L217 49 L212 51 L210 56 L208 51 L203 49 L208 47 Z" fill="#fceef2" stroke="#4a3228" stroke-width="1.4"/>
-  </svg>`,
+  </svg>`;
+
+const SEED_SVGS: Record<string, string> = {
+  'seed/logo-qokhims.svg': QOKHIMS_LOGO_SVG,
+  'seed/logo-pakzy.svg': QOKHIMS_LOGO_SVG,
 
   'seed/product-banner.svg': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
     <rect width="800" height="600" fill="#fff7f9"/>
@@ -44,7 +47,7 @@ const SEED_SVGS: Record<string, string> = {
     <circle cx="235" cy="364" r="44" fill="#fceef2" stroke="#4a3228" stroke-width="2"/>
     <text x="235" y="371" text-anchor="middle" font-family="Prompt, sans-serif" font-size="20" font-weight="700" fill="#ec7a9a">BANK</text>
     <text x="310" y="340" font-family="Prompt, sans-serif" font-size="22" font-weight="700" fill="#4a3228">123-4-56789-0</text>
-    <text x="310" y="374" font-family="Prompt, sans-serif" font-size="17" fill="#7d5d50">ชื่อบัญชี: ร้าน pakzy.o สตูดิโอ</text>
+    <text x="310" y="374" font-family="Prompt, sans-serif" font-size="17" fill="#7d5d50">ชื่อบัญชี: ร้าน qokhims สตูดิโอ</text>
     <text x="310" y="406" font-family="Prompt, sans-serif" font-size="15" font-weight="600" fill="#ec7a9a">✿ พร้อมใส่ QR Code รับเงินสุดคิวท์</text>
   </svg>`,
 

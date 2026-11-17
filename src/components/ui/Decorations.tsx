@@ -186,7 +186,7 @@ export const CardCornerDoodle: React.FC<{
 };
 
 /**
- * แบรนด์เวิร์ดมาร์กเอกลักษณ์ของร้าน: จุด (.) ใน "pakzy.o" เป็นหัวใจหรือดาวเล็ก ๆ
+ * แบรนด์เวิร์ดมาร์กเอกลักษณ์ของร้าน qokhims
  * ใช้สม่ำเสมอเป็นโลโก้, ตัวโหลด, ตัวคั่นหัวข้อ และจุดเน้นแบรนด์
  */
 export const BrandWordmark: React.FC<{
@@ -195,7 +195,7 @@ export const BrandWordmark: React.FC<{
   dotClassName?: string;
   className?: string;
 }> = ({
-  name = 'pakzy.o',
+  name = 'qokhims',
   dotVariant = 'dot',
   dotClassName = 'w-3.5 h-3.5 mx-0.5 -translate-y-0.5',
   className = '',
@@ -228,7 +228,7 @@ export const BrandWordmark: React.FC<{
 };
 
 /**
- * เส้นคั่นหัวข้อแบบมินิมอล ใช้เอกลักษณ์จุดหัวใจ/ดาวของ pakzy.o (ไม่เกิน 3 ไอคอน ไม่รก)
+ * เส้นคั่นหัวข้อแบบมินิมอล ใช้เอกลักษณ์ของ qokhims (ไม่เกิน 3 ไอคอน ไม่รก)
  */
 export const CuteSectionDivider: React.FC<{ className?: string }> = ({
   className = '',
@@ -247,10 +247,9 @@ export const CuteSectionDivider: React.FC<{ className?: string }> = ({
       />
     </svg>
     <CuteSparkle className="w-3.5 h-3.5" />
-    <span className="inline-flex items-baseline text-xs font-bold tracking-tight text-[var(--color-secondary-muted)] px-1.5 py-0.5 rounded-full bg-[var(--color-primary-light)]/80 border border-[var(--color-border)]">
-      <span>pakzy</span>
-      <CuteHeart className="w-3 h-3 mx-0.5 -translate-y-0.5" />
-      <span>o</span>
+    <span className="inline-flex items-baseline text-xs font-bold tracking-tight text-[var(--color-secondary-muted)] px-2 py-0.5 rounded-full bg-[var(--color-primary-light)]/80 border border-[var(--color-border)]">
+      <span>qokhims</span>
+      <CuteHeart className="w-3 h-3 ml-1 -translate-y-0.5" />
     </span>
     <CuteSparkle className="w-3.5 h-3.5" />
     <svg width="52" height="8" viewBox="0 0 52 8" fill="none">
@@ -278,10 +277,10 @@ export const CuteWashiTape: React.FC<{ className?: string }> = ({
 );
 
 /**
- * สติกเกอร์มาสคอตประจำร้าน pakzy.o (กระต่าย/เมฆหัวใจวาดมือ เส้นน้ำตาลเข้มเติมชมพูอ่อน)
+ * สติกเกอร์มาสคอตประจำร้าน qokhims (กระต่าย/เมฆหัวใจวาดมือ เส้นน้ำตาลเข้มเติมชมพูอ่อน)
  * สำหรับใช้ใน Loading, Empty state, Error state และหน้า 404
  */
-export const PakzyMascotSticker: React.FC<{
+export const QokhimsMascotSticker: React.FC<{
   mood?: 'happy' | 'loading' | 'empty' | 'lost';
   className?: string;
 }> = ({ mood = 'happy', className = 'w-24 h-24' }) => (
@@ -395,6 +394,8 @@ export const PakzyMascotSticker: React.FC<{
   </svg>
 );
 
+export const PakzyMascotSticker = QokhimsMascotSticker;
+
 /**
  * Scroll Reveal Wrapper (Fade-up ด้วย IntersectionObserver และเคารพ prefers-reduced-motion)
  */
@@ -444,91 +445,14 @@ export const RevealOnScroll: React.FC<{
 };
 
 /**
- * Signature Marquee Strip:
- * แถบข้อความวิ่งช้า ๆ สีชมพู/น้ำตาล ข้อความเดียวกันเปลี่ยนฟอนต์วนจากฟอนต์ของร้าน
- * ใช้คั่นระหว่างส่วนหลัก (หยุดเมื่อ hover และเมื่อ prefers-reduced-motion)
- */
-export const FontMarqueeStrip: React.FC<{
-  fonts?: Array<{ id?: number; name: string; family_name: string }>;
-  text?: string;
-  variant?: 'pink' | 'brown';
-}> = ({
-  fonts = [],
-  text = 'ตัวอักษรคือตัวเอกของร้าน • ออกแบบป้ายมินิมอล & ฟอนต์ลายมือไทยสุดคิวท์',
-  variant = 'pink',
-}) => {
-  const fontList =
-    fonts.length > 0
-      ? fonts
-      : [
-          { name: 'PKZ Baitoey', family_name: 'PKZ Baitoey' },
-          { name: 'PKZ Choco Pink', family_name: 'PKZ Choco Pink' },
-          { name: 'PKZ Milky Star', family_name: 'PKZ Milky Star' },
-          { name: 'PKZ Brownie Note', family_name: 'PKZ Brownie Note' },
-        ];
-
-  // ทำซ้ำให้ยาวพอสำหรับไร้รอยต่อ (2 ชุดเหมือนกันสำหรับ translate3d(-50%, 0, 0))
-  const baseSequence = [...fontList, ...fontList];
-  const fullTrack = [...baseSequence, ...baseSequence];
-
-  const isBrown = variant === 'brown';
-
-  return (
-    <div
-      className={`pkz-marquee-wrap overflow-hidden select-none py-3 border-y transition-colors ${
-        isBrown
-          ? 'bg-[var(--color-secondary)] text-[var(--color-bg)] border-[var(--color-secondary)]'
-          : 'bg-[var(--color-primary-light)]/90 text-[var(--color-secondary)] border-[var(--color-border)]'
-      }`}
-      aria-label={text}
-    >
-      <div className="pkz-marquee-track items-center">
-        {fullTrack.map((f, idx) => (
-          <div
-            key={`${f.family_name}-${idx}`}
-            className="inline-flex items-center gap-3 px-5 whitespace-nowrap"
-          >
-            <span
-              className="inline-flex items-baseline text-sm sm:text-base font-bold tracking-tight"
-              style={{
-                fontFamily: `'${f.family_name}', 'Prompt', sans-serif`,
-              }}
-            >
-              <span>pakzy</span>
-              {idx % 2 === 0 ? (
-                <CuteHeart className="w-3.5 h-3.5 mx-0.5 -translate-y-0.5" />
-              ) : (
-                <CuteSparkle className="w-3.5 h-3.5 mx-0.5 -translate-y-0.5" />
-              )}
-              <span>o</span>
-              <span className="mx-2 opacity-60">—</span>
-              <span>{text}</span>
-            </span>
-            <span
-              className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
-                isBrown
-                  ? 'bg-white/15 text-[var(--color-bg)] border-white/25'
-                  : 'bg-white text-[var(--color-primary)] border-[var(--color-border)]'
-              }`}
-            >
-              ฟอนต์: {f.name}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-/**
  * หน้าโหลดแรกเข้า (Initial Splash Loader):
- * ชื่อร้าน "pakzy.o" (จุดเป็นหัวใจ/ดาว) ถูกพิมพ์ทีละตัวพร้อมเปลี่ยนฟอนต์ แล้วนิ่ง
+ * ชื่อร้าน "qokhims" ถูกพิมพ์ทีละตัวพร้อมเปลี่ยนฟอนต์ แล้วนิ่ง
  * ไม่เกิน 1.5 วินาที แสดงครั้งเดียวต่อ session และกดข้ามได้ทันที
  */
 export const InitialSplashLoader: React.FC<{
   siteName?: string;
   fonts?: Array<{ name: string; family_name: string }>;
-}> = ({ siteName = 'pakzy.o', fonts = [] }) => {
+}> = ({ siteName = 'qokhims', fonts = [] }) => {
   const [visible, setVisible] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -609,8 +533,8 @@ export const InitialSplashLoader: React.FC<{
     >
       <div className="flex flex-col items-center gap-4 text-center">
         <img
-          src="/pakzy-profile.png"
-          alt="pakzy.o"
+          src="/qokhims-profile.png"
+          alt="qokhims"
           className="w-16 h-16 rounded-full object-cover border-2 border-[var(--color-border)] shadow-xs"
         />
 

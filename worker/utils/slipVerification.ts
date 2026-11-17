@@ -206,7 +206,7 @@ export async function verifyOrderSlip({
     slipAmount = expectedAmount;
     senderName = 'ลูกค้าทดสอบระบบ (Sandbox)';
     receiverAccount = settings.promptpay_number || settings.bank_account_number || '0812345678';
-    receiverName = settings.bank_account_name || 'pakzy.o';
+    receiverName = settings.bank_account_name || 'qokhims';
     rawData = {
       mock: true,
       transRef,

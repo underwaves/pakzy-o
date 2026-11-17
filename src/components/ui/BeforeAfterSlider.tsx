@@ -134,7 +134,7 @@ export const BeforeAfterSlider: React.FC = () => {
                   <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#fceef2]/90 border border-[#4a3228] shadow-2xs">
                     <CuteFlower className="w-4 h-4" />
                     <BrandWordmark
-                      name="pakzy.o"
+                      name="qokhims"
                       dotVariant="heart"
                       className="text-base font-bold text-[#4a3228]"
                     />
@@ -149,7 +149,7 @@ export const BeforeAfterSlider: React.FC = () => {
           )}
 
           <span className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-[var(--color-primary)] text-white text-xs font-bold shadow-xs">
-            AFTER • หลังแต่งโดย pakzy.o ♡
+            AFTER • หลังแต่งโดย qokhims ♡
           </span>
         </div>
 

@@ -27,7 +27,7 @@ import { useToast } from '../../context/ToastContext';
 
 const THEME_PRESETS = [
   {
-    name: 'ชมพูพาสเทล + น้ำตาลช็อกโก (ค่าเริ่มต้น pakzy.o)',
+    name: 'ชมพูพาสเทล + น้ำตาลช็อกโก (ค่าเริ่มต้น qokhims)',
     primary: '#ec7a9a',
     primaryLight: '#fceef2',
     secondary: '#4a3228',
@@ -425,7 +425,7 @@ export const AdminSettingsPage: React.FC = () => {
               รูปโชว์หน้าร้านบนการ์ดหน้าแรก (Hero Showcase Image — กรอบขวาบนหน้าแรก)
             </label>
             <p className="text-[11px] text-[var(--color-secondary-muted)]">
-              อัปโหลดรูปภาพร้านหรือผลงานเด่นเพื่อแสดงในกรอบขวาบนหน้าแรกได้ทันที (บันทึกอัตโนมัติเมื่อเลือกรูป) หรือกดปุ่มรีเซ็ตเพื่อแสดงการ์ดโปรไฟล์ @pakzy.o ค่ะ
+              อัปโหลดรูปภาพร้านหรือผลงานเด่นเพื่อแสดงในกรอบขวาบนหน้าแรกได้ทันที (บันทึกอัตโนมัติเมื่อเลือกรูป) หรือกดปุ่มรีเซ็ตเพื่อแสดงการ์ดโปรไฟล์ @qokhims ค่ะ
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <img
@@ -433,7 +433,7 @@ export const AdminSettingsPage: React.FC = () => {
                   form.hero_image_url &&
                   form.hero_image_url !== '/r2/seed/product-banner.svg'
                     ? form.hero_image_url
-                    : '/pakzy-profile.png'
+                    : '/qokhims-profile.png'
                 }
                 alt="Hero Showcase Preview"
                 className="h-16 w-16 object-cover rounded-2xl border border-[var(--color-border)] bg-white shrink-0"
@@ -442,7 +442,7 @@ export const AdminSettingsPage: React.FC = () => {
                 type="text"
                 value={form.hero_image_url || ''}
                 onChange={(e) => updateField('hero_image_url', e.target.value)}
-                placeholder="เว้นว่างหรือใส่ /r2/seed/product-banner.svg เพื่อแสดงการ์ดโปรไฟล์ @pakzy.o"
+                placeholder="เว้นว่างหรือใส่ /r2/seed/product-banner.svg เพื่อแสดงการ์ดโปรไฟล์ @qokhims"
                 className="flex-1 w-full px-3.5 py-2.5 rounded-xl bg-white border border-[var(--color-border)] text-xs"
               />
               <div className="flex flex-wrap items-center gap-2 shrink-0">
@@ -473,12 +473,12 @@ export const AdminSettingsPage: React.FC = () => {
                           body: JSON.stringify({ settings: nextForm }),
                         });
                         await refreshSiteData();
-                        showToast('สลับกลับเป็นการ์ดโปรไฟล์ @pakzy.o เรียบร้อยค่ะ ♡', 'info');
+                        showToast('สลับกลับเป็นการ์ดโปรไฟล์ @qokhims เรียบร้อยค่ะ ♡', 'info');
                       }}
                       className="px-3 py-2.5 rounded-xl bg-white border border-[var(--color-border)] text-[var(--color-secondary)] text-xs font-semibold hover:bg-[var(--color-bg)] transition inline-flex items-center gap-1 cursor-pointer"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
-                      ใช้การ์ดโปรไฟล์ @pakzy.o
+                      ใช้การ์ดโปรไฟล์ @qokhims
                     </button>
                   )}
               </div>
@@ -545,13 +545,13 @@ export const AdminSettingsPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold mb-1">
-                Instagram (เช่น pakzy.o)
+                Instagram (เช่น qokhims)
               </label>
               <input
                 type="text"
                 value={form.contact_ig || ''}
                 onChange={(e) => updateField('contact_ig', e.target.value)}
-                placeholder="pakzy.o"
+                placeholder="qokhims"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)]"
               />
             </div>
@@ -577,7 +577,7 @@ export const AdminSettingsPage: React.FC = () => {
                 type="text"
                 value={form.contact_tiktok || ''}
                 onChange={(e) => updateField('contact_tiktok', e.target.value)}
-                placeholder="@pakzy.o"
+                placeholder="@qokhims"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)]"
               />
             </div>
@@ -590,7 +590,7 @@ export const AdminSettingsPage: React.FC = () => {
                 type="email"
                 value={form.contact_email || ''}
                 onChange={(e) => updateField('contact_email', e.target.value)}
-                placeholder="contact@pakzy.o"
+                placeholder="contact@qokhims.com"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--color-bg)] border border-[var(--color-border)]"
               />
             </div>
@@ -719,7 +719,7 @@ export const AdminSettingsPage: React.FC = () => {
                     type="email"
                     value={form.notification_email || ''}
                     onChange={(e) => updateField('notification_email', e.target.value)}
-                    placeholder="เช่น contact@pakzy.o หรือ yourname@gmail.com"
+                    placeholder="เช่น contact@qokhims.com หรือ yourname@gmail.com"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[var(--color-border)] text-xs"
                   />
                   <p className="text-[11px] text-[var(--color-secondary-muted)] mt-1">
@@ -1038,7 +1038,7 @@ export const AdminSettingsPage: React.FC = () => {
                     ตรวจสอบบัญชีผู้รับเงิน
                   </span>
                   <span className="text-[11px] text-[var(--color-secondary-muted)]">
-                    ตรวจว่าเลขบัญชีหรือเบอร์พร้อมเพย์ในสลิปตรงกับบัญชีของร้าน pakzy.o
+                    ตรวจว่าเลขบัญชีหรือเบอร์พร้อมเพย์ในสลิปตรงกับบัญชีของร้าน qokhims
                   </span>
                 </div>
               </label>

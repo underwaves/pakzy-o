@@ -21,7 +21,7 @@ export const PromptPayQrCard: React.FC<PromptPayQrCardProps> = ({
   promptPayNumber = '0812345678',
   bankName = 'ธนาคารกสิกรไทย (KBANK)',
   bankAccountNumber = '123-4-56789-0',
-  bankAccountName = 'น.ส. พักตร์ปรียา (pakzy.o)',
+  bankAccountName = 'น.ส. พักตร์ปรียา (qokhims)',
   slipFile,
   slipPreviewUrl,
   onSlipSelect,
