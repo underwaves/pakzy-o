@@ -1111,7 +1111,7 @@ export const OrderPage: React.FC = () => {
                 className="px-4 py-2 rounded-full bg-white border border-[var(--color-border)] text-xs font-semibold text-[var(--color-secondary)] hover:bg-[var(--color-primary-light)] transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
               >
                 <Download className="w-3.5 h-3.5 text-[var(--color-primary)]" />
-                บันทึกรูปใบเสร็จ (.PNG)
+                บันทึกรูปใบเสร็จ (.PNG) เก็บไว้ส่งในแชต LINE
               </button>
 
               <button
