@@ -835,7 +835,7 @@ export const HomePage: React.FC = () => {
               className="pkz-order-btn px-6 py-3.5 rounded-full bg-[var(--color-primary)] text-white text-sm font-semibold hover:opacity-95 transition inline-flex items-center gap-2 shadow-sm"
             >
               <ShoppingBag className="w-4 h-4" />
-              สร้างใบสั่งซื้อ & ส่งเข้า LINE
+              เปิดดูตะกร้าสินค้า & สั่งซื้อ
             </Link>
             <a
               href={`https://line.me/R/ti/p/${lineUrlHandle}`}

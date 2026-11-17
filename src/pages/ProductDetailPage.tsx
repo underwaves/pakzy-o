@@ -22,7 +22,7 @@ import {
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { addToOrderCart, settings } = useSite();
+  const { addToOrderCart, cartItems, settings } = useSite();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
@@ -105,7 +105,7 @@ export const ProductDetailPage: React.FC = () => {
     .map((l) => l.trim())
     .filter(Boolean);
 
-  const handleOrderSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     addToOrderCart(
       {
         product_id: product.id,
@@ -118,8 +118,7 @@ export const ProductDetailPage: React.FC = () => {
       },
       { clientX: e.clientX, clientY: e.clientY }
     );
-    showToast(`เพิ่ม "${product.title}" ลงในใบสั่งซื้อแล้วค่ะ ♡`, 'success');
-    setTimeout(() => navigate('/order'), 360);
+    showToast(`เพิ่ม "${product.title}" ลงในตะกร้าแล้วค่ะ ♡ (ดูที่ตะกร้าด้านบน)`, 'success');
   };
 
   const lineHandle = (settings.contact_line || '@280npxvj').trim();
@@ -305,17 +304,30 @@ export const ProductDetailPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <button
                 type="button"
-                onClick={handleOrderSubmit}
+                onClick={handleAddToCart}
+                title="ใส่ตะกร้าไว้ก่อน"
                 className="pkz-order-btn flex-1 py-3.5 px-6 rounded-full bg-[var(--color-primary)] text-white font-semibold text-sm sm:text-base hover:opacity-95 transition shadow-sm inline-flex items-center justify-center gap-2 cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4" />
-                สั่งซื้อรายการนี้ (฿{(product.price * quantity).toLocaleString('th-TH')})
+                ใส่ตะกร้า (฿{(product.price * quantity).toLocaleString('th-TH')})
               </button>
+              <Link
+                to="/order"
+                className="py-3.5 px-5 rounded-full bg-[var(--color-secondary)] text-white font-semibold text-sm hover:opacity-95 transition inline-flex items-center justify-center gap-2 shadow-2xs"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                ไปที่ตะกร้าสินค้า
+                {cartItems.length > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-[var(--color-primary)] text-white text-xs font-bold leading-none">
+                    {cartItems.reduce((acc, it) => acc + it.quantity, 0)}
+                  </span>
+                )}
+              </Link>
               <a
                 href={`https://line.me/R/ti/p/${lineUrlHandle}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-3.5 px-5 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-secondary)] font-semibold text-sm hover:bg-[var(--color-primary-light)] transition inline-flex items-center gap-2"
+                className="py-3.5 px-5 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-secondary)] font-semibold text-sm hover:bg-[var(--color-primary-light)] transition inline-flex items-center justify-center gap-2"
               >
                 <MessageCircle className="w-4 h-4 text-[#06C755]" />
                 สอบถามทาง LINE

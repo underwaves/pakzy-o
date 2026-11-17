@@ -191,7 +191,7 @@ export const PortfolioPage: React.FC = () => {
             className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl bg-[var(--color-secondary)] text-white hover:bg-[var(--color-primary)] transition"
           >
             <ShoppingBag className="w-4 h-4" />
-            สั่งซื้อ / ส่งบรีฟงาน
+            ตะกร้าสินค้า & สั่งซื้อ
           </Link>
         </div>
       </div>

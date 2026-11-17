@@ -493,8 +493,7 @@ export const FontQuizPage: React.FC = () => {
       },
       { clientX: e.clientX, clientY: e.clientY }
     );
-    showToast(`เพิ่ม "${title}" ลงในรายการสั่งซื้อแล้วค่ะ ♡`, 'success');
-    setTimeout(() => navigate('/order'), 350);
+    showToast(`เพิ่ม "${title}" ลงในตะกร้าแล้วค่ะ ♡ (ดูที่ตะกร้าด้านบนเมื่อพร้อมสั่งซื้อ)`, 'success');
   };
 
   return (
@@ -662,11 +661,20 @@ export const FontQuizPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleOrderMatchedFont}
+                title="ใส่ตะกร้าไว้ก่อน"
                 className="pkz-order-btn px-5 py-3 rounded-full bg-[var(--color-secondary)] text-[var(--color-bg)] text-xs sm:text-sm font-semibold hover:bg-[var(--color-primary)] hover:text-white transition shadow-xs inline-flex items-center gap-2 cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4" />
-                สั่งซื้อฟอนต์นี้ทันที
+                ใส่ฟอนต์นี้ลงตะกร้า
               </button>
+
+              <Link
+                to="/order"
+                className="px-5 py-3 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-secondary)] text-xs sm:text-sm font-semibold hover:bg-[var(--color-primary-light)] transition shadow-xs inline-flex items-center gap-2"
+              >
+                <ShoppingBag className="w-4 h-4 text-[var(--color-primary)]" />
+                ไปที่ตะกร้าสินค้า
+              </Link>
 
               <Link
                 to={`/font-tester?font=${encodeURIComponent(

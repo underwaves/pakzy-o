@@ -181,7 +181,7 @@ export const ProductCard: React.FC<{ product: Product; isSelected?: boolean }> =
     }
   };
 
-  const handleOrderNow = (e: React.MouseEvent) => {
+  const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addToOrderCart(
@@ -196,10 +196,7 @@ export const ProductCard: React.FC<{ product: Product; isSelected?: boolean }> =
       },
       { clientX: e.clientX, clientY: e.clientY }
     );
-    showToast(`เพิ่ม "${product.title}" ลงในรายการสั่งซื้อแล้วค่ะ ♡`, 'info');
-    setTimeout(() => {
-      navigate('/order');
-    }, 360);
+    showToast(`เพิ่ม "${product.title}" ลงในตะกร้าแล้วค่ะ ♡ (ดูที่ตะกร้าด้านบนเมื่อพร้อมสั่งซื้อ)`, 'success');
   };
 
   return (
@@ -321,11 +318,13 @@ export const ProductCard: React.FC<{ product: Product; isSelected?: boolean }> =
               ดูงาน
             </Link>
             <button
-              onClick={handleOrderNow}
+              type="button"
+              onClick={handleAddToCart}
+              title="ใส่ตะกร้าไว้ก่อน"
               className="pkz-order-btn px-3.5 py-2 rounded-full text-xs font-semibold bg-[var(--color-secondary)] text-[var(--color-bg)] hover:bg-[var(--color-primary)] hover:text-white active:scale-95 transition-all inline-flex items-center gap-1.5 shadow-2xs cursor-pointer"
             >
               <ShoppingBag className="w-3.5 h-3.5" />
-              สั่งซื้อ
+              ใส่ตะกร้า
             </button>
           </div>
         </div>

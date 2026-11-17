@@ -19,6 +19,7 @@ import {
   Search,
   Clock,
   FolderOpen,
+  Type,
 } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
 import { useToast } from '../context/ToastContext';
@@ -218,10 +219,29 @@ export const OrderPage: React.FC = () => {
     showToast(`เพิ่มฟอนต์ "${font.name}" ลงในตะกร้าแล้วค่ะ ♡`, 'info');
   };
 
-  const handleProceedToPayment = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleProceedToCheckout = () => {
     if (cartItems.length === 0) {
-      showToast('กรุณาเลือกฟอนต์อย่างน้อย 1 รายการค่ะ', 'error');
+      showToast('กรุณาเลือกฟอนต์ใส่ตะกร้าก่อนดำเนินการสั่งซื้อนะคะ ♡', 'error');
+      return;
+    }
+    setStep('payment');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSlipSelect = (file: File | null) => {
+    setSlipFile(file);
+    if (file) {
+      setSlipPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setSlipPreviewUrl(null);
+    }
+  };
+
+  const handleConfirmOrderAndPayment = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (cartItems.length === 0) {
+      showToast('ตะกร้าสินค้ายังไม่มีรายการ กรุณาเลือกฟอนต์ก่อนนะคะ', 'error');
+      setStep('cart');
       return;
     }
     if (customerName.trim().length < 2) {
@@ -240,20 +260,7 @@ export const OrderPage: React.FC = () => {
       );
       return;
     }
-    setStep('payment');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
-  const handleSlipSelect = (file: File | null) => {
-    setSlipFile(file);
-    if (file) {
-      setSlipPreviewUrl(URL.createObjectURL(file));
-    } else {
-      setSlipPreviewUrl(null);
-    }
-  };
-
-  const handleConfirmOrderAndPayment = async () => {
     setSubmitting(true);
     let uploadedSlipUrl: string | null = null;
 
@@ -452,36 +459,50 @@ export const OrderPage: React.FC = () => {
           <CuteFlower className="w-3.5 h-3.5" /> Web Order & Instant Checkout
         </span>
         <h1 className="text-2xl sm:text-4xl font-bold text-[var(--color-secondary)]">
-          {step === 'completed' ? 'ติดตามสถานะคำสั่งซื้อ & รับไฟล์' : 'สั่งซื้อและชำระเงินผ่านเว็บ'}
+          {step === 'completed'
+            ? 'ติดตามสถานะคำสั่งซื้อ & รับไฟล์'
+            : step === 'payment'
+            ? 'ข้อมูลสั่งซื้อ & ชำระเงิน'
+            : 'ตะกร้าสินค้าของคุณ'}
         </h1>
+        <p className="text-xs sm:text-sm text-[var(--color-secondary-muted)] max-w-md mx-auto">
+          {step === 'completed'
+            ? 'ตรวจสอบสถานะการชำระเงินและรับลิงก์ดาวน์โหลดไฟล์ฟอนต์จากร้าน'
+            : step === 'payment'
+            ? 'กรอกข้อมูลติดต่อสำหรับรับไฟล์ โอนชำระเงิน และแนบสลิปได้เลยค่ะ'
+            : 'เลือกฟอนต์ที่ชอบใส่ตะกร้าไว้ก่อน ตรวจสอบรายการ แล้วค่อยกดสั่งซื้อจริงในตะกร้าได้เลยนะคะ ♡'}
+        </p>
         <CuteSectionDivider />
 
         {/* แถบแสดงขั้นตอน 3 สเต็ป */}
         <div className="flex items-center justify-center gap-2 sm:gap-4 pt-3 text-xs sm:text-sm font-semibold">
-          <span
-            className={`px-3.5 py-1.5 rounded-full ${
+          <button
+            type="button"
+            onClick={() => step === 'payment' && setStep('cart')}
+            disabled={step === 'completed'}
+            className={`px-3.5 py-1.5 rounded-full transition cursor-pointer ${
               step === 'cart'
-                ? 'bg-[var(--color-primary)] text-white shadow-2xs'
-                : 'bg-[var(--color-primary-light)] text-[var(--color-secondary)]'
+                ? 'bg-[var(--color-primary)] text-white shadow-2xs font-bold'
+                : 'bg-[var(--color-primary-light)] text-[var(--color-secondary)] hover:bg-white'
             }`}
           >
-            1. ตะกร้า & ข้อมูลสั่งซื้อ
-          </span>
+            1. ตะกร้าสินค้า {cartItems.length > 0 && `(${cartItems.length})`}
+          </button>
           <span className="text-[var(--color-border)]">──</span>
           <span
             className={`px-3.5 py-1.5 rounded-full ${
               step === 'payment'
-                ? 'bg-[var(--color-primary)] text-white shadow-2xs'
+                ? 'bg-[var(--color-primary)] text-white shadow-2xs font-bold'
                 : 'bg-[var(--color-primary-light)] text-[var(--color-secondary)]'
             }`}
           >
-            2. ชำระเงิน & แนบสลิป
+            2. ข้อมูลสั่งซื้อ & ชำระเงิน
           </span>
           <span className="text-[var(--color-border)]">──</span>
           <span
             className={`px-3.5 py-1.5 rounded-full ${
               step === 'completed'
-                ? 'bg-[var(--color-primary)] text-white shadow-2xs'
+                ? 'bg-[var(--color-primary)] text-white shadow-2xs font-bold'
                 : 'bg-[var(--color-primary-light)] text-[var(--color-secondary)]'
             }`}
           >
@@ -528,17 +549,29 @@ export const OrderPage: React.FC = () => {
       )}
 
       {/* ========================================================================= */}
-      {/* ขั้นตอนที่ 1: ตะกร้าสินค้า และ ข้อมูลติดต่อ */}
+      {/* ขั้นตอนที่ 1: ตะกร้าสินค้า (Shopping Cart) */}
       {/* ========================================================================= */}
       {step === 'cart' && (
-        <form onSubmit={handleProceedToPayment} className="space-y-8 animate-fade-in">
-          {/* ส่วนที่ 1: ตะกร้าสินค้า */}
+        <div className="space-y-8 animate-fade-in">
+          {/* กล่องตะกร้าสินค้า */}
           <div className="relative bg-white rounded-[2rem] border-2 border-[var(--color-border)] p-5 sm:p-7 shadow-xs space-y-5 overflow-hidden">
             <CardCornerDoodle corner="top-right" variant="flower" />
-            <h2 className="text-lg font-bold text-[var(--color-secondary)] flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-[var(--color-primary)]" />
-              1. รายการสินค้าในตะกร้า ({cartItems.length} รายการ)
-            </h2>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 className="text-lg sm:text-xl font-bold text-[var(--color-secondary)] flex items-center gap-2">
+                <ShoppingBag className="w-5 h-5 text-[var(--color-primary)]" />
+                1. ตะกร้าสินค้าของคุณ ({cartItems.length} รายการ)
+              </h2>
+              {cartItems.length > 0 && (
+                <button
+                  type="button"
+                  onClick={clearOrderCart}
+                  className="text-xs text-red-500 hover:text-red-700 hover:underline inline-flex items-center gap-1 cursor-pointer"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  ล้างตะกร้าทั้งหมด
+                </button>
+              )}
+            </div>
 
             {/* ตัวเลือกเพิ่มฟอนต์จากร้าน */}
             <div className="flex flex-col sm:flex-row gap-2.5 p-3.5 rounded-2xl bg-[var(--color-bg)] border border-[var(--color-border)]">
@@ -572,15 +605,27 @@ export const OrderPage: React.FC = () => {
             </div>
 
             {cartItems.length === 0 ? (
-              <div className="text-center py-10 px-4 rounded-2xl border border-dashed border-[var(--color-border)] text-sm text-[var(--color-secondary-muted)] space-y-3">
+              <div className="text-center py-12 px-4 rounded-2xl border border-dashed border-[var(--color-border)] text-sm text-[var(--color-secondary-muted)] space-y-4">
                 <QokhimsMascotSticker mood="empty" className="w-16 h-16 mx-auto" />
-                <p>ตะกร้าของคุณยังว่างอยู่เลยค่ะ แวะไปลองพิมพ์ฟอนต์ก่อนได้น้า ♡</p>
-                <Link
-                  to="/font-tester"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--color-primary-light)] text-[var(--color-primary)] text-xs font-bold hover:bg-[var(--color-primary)] hover:text-white transition"
-                >
-                  ไปหน้าทดลองพิมพ์ฟอนต์ →
-                </Link>
+                <div className="space-y-1">
+                  <p className="font-bold text-[var(--color-secondary)]">ตะกร้าของคุณยังว่างอยู่เลยค่ะ ♡</p>
+                  <p className="text-xs">แวะไปเลือกดูหรือทดลองพิมพ์ฟอนต์ก่อน แล้วกด "ใส่ตะกร้า" ไว้ได้เลยนะคะ</p>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                  <Link
+                    to="/font-tester"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[var(--color-primary)] text-white text-xs font-bold hover:opacity-95 transition shadow-2xs"
+                  >
+                    <Type className="w-4 h-4" />
+                    ไปหน้าทดลองพิมพ์ฟอนต์ →
+                  </Link>
+                  <Link
+                    to="/products"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-secondary)] text-xs font-bold hover:bg-[var(--color-primary-light)] transition"
+                  >
+                    ดูบริการ & ฟอนต์ทั้งหมด
+                  </Link>
+                </div>
               </div>
             ) : (
               <div className="space-y-3">
@@ -664,23 +709,84 @@ export const OrderPage: React.FC = () => {
                 ))}
 
                 <div className="pt-3 flex items-center justify-between border-t border-[var(--color-border)]">
-                  <span className="text-sm font-bold text-[var(--color-secondary)]">
-                    ยอดรวมสุทธิ:
-                  </span>
+                  <div>
+                    <span className="text-sm font-bold text-[var(--color-secondary)] block">
+                      ยอดรวมสุทธิ:
+                    </span>
+                    <span className="text-xs text-[var(--color-secondary-muted)]">
+                      รวมทั้งหมด {cartItems.reduce((acc, it) => acc + it.quantity, 0)} ชิ้น
+                    </span>
+                  </div>
                   <span className="text-xl sm:text-2xl font-extrabold text-[var(--color-primary)]">
                     ฿{totalAmount.toLocaleString('th-TH')} บาท
                   </span>
                 </div>
+
+                {/* แถบปุ่มดำเนินการ: ใส่ตะกร้าไว้ก่อน ค่อยกดซื้อจริงในตะกร้าอีกที */}
+                <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-dashed border-[var(--color-border)]">
+                  <Link
+                    to="/font-tester"
+                    className="px-5 py-3 rounded-full bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-secondary)] text-xs sm:text-sm font-semibold hover:bg-[var(--color-primary-light)] transition inline-flex items-center justify-center gap-2"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    เลือกดูฟอนต์ / ทดลองพิมพ์ต่อ
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={handleProceedToCheckout}
+                    className="pkz-order-btn px-8 py-3.5 rounded-full bg-[var(--color-primary)] text-white font-bold text-sm sm:text-base hover:opacity-95 transition shadow-sm inline-flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>สั่งซื้อสินค้าในตะกร้า (฿{totalAmount.toLocaleString('th-TH')})</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
             )}
           </div>
+        </div>
+      )}
 
-          {/* ส่วนที่ 2: ข้อมูลติดต่อลูกค้า */}
+      {/* ========================================================================= */}
+      {/* ขั้นตอนที่ 2: ข้อมูลติดต่อ & ชำระเงิน (Checkout & Payment) */}
+      {/* ========================================================================= */}
+      {step === 'payment' && (
+        <form onSubmit={handleConfirmOrderAndPayment} className="space-y-6 animate-fade-in max-w-2xl mx-auto">
+          {/* กล่องสรุปรายการในตะกร้าย่อส่วน */}
+          <div className="bg-white rounded-2xl border-2 border-[var(--color-border)] p-4 sm:p-5 shadow-2xs flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[var(--color-primary-light)] flex items-center justify-center text-[var(--color-primary)]">
+                <ShoppingBag className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xs sm:text-sm font-bold text-[var(--color-secondary)]">
+                  สรุปคำสั่งซื้อ ({cartItems.length} รายการ)
+                </div>
+                <div className="text-xs text-[var(--color-secondary-muted)] max-w-sm truncate">
+                  {cartItems.map((i) => i.product_title).join(', ')}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-lg font-extrabold text-[var(--color-primary)]">
+                ฿{totalAmount.toLocaleString('th-TH')}
+              </span>
+              <button
+                type="button"
+                onClick={() => setStep('cart')}
+                className="px-3 py-1.5 rounded-full border border-[var(--color-border)] text-xs font-semibold text-[var(--color-secondary)] hover:bg-[var(--color-primary-light)] transition cursor-pointer"
+              >
+                แก้ไขตะกร้า
+              </button>
+            </div>
+          </div>
+
+          {/* ข้อมูลติดต่อลูกค้า */}
           <div className="relative bg-white rounded-[2rem] border-2 border-[var(--color-border)] p-5 sm:p-7 shadow-xs space-y-5 overflow-hidden">
             <CardCornerDoodle corner="top-right" variant="heart" />
             <h2 className="text-lg font-bold text-[var(--color-secondary)] flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-[var(--color-primary)]" />
-              2. ข้อมูลติดต่อลูกค้า
+              ข้อมูลติดต่อลูกค้า (สำหรับจัดส่งไฟล์ฟอนต์ & ใบเสร็จ)
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -775,26 +881,9 @@ export const OrderPage: React.FC = () => {
                 </div>
               </div>
             )}
-
-            <div className="pt-3 flex justify-end">
-              <button
-                type="submit"
-                disabled={cartItems.length === 0}
-                className="pkz-order-btn w-full sm:w-auto px-8 py-3.5 rounded-full bg-[var(--color-primary)] text-white font-semibold text-sm sm:text-base hover:opacity-95 transition shadow-sm inline-flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
-              >
-                <span>ดำเนินการชำระเงิน (Next)</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
           </div>
-        </form>
-      )}
 
-      {/* ========================================================================= */}
-      {/* ขั้นตอนที่ 2: โอนเงินผ่าน PromptPay QR / บัญชีธนาคาร + แนบสลิป */}
-      {/* ========================================================================= */}
-      {step === 'payment' && (
-        <div className="space-y-6 animate-fade-in max-w-2xl mx-auto">
+          {/* การ์ด PromptPay QR Code และแนบสลิป */}
           <PromptPayQrCard
             amount={totalAmount}
             promptPayNumber={settings.promptpay_number || '0812345678'}
@@ -815,12 +904,11 @@ export const OrderPage: React.FC = () => {
               className="w-full sm:w-auto px-6 py-3 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-secondary)] text-sm font-semibold hover:bg-[var(--color-primary-light)] transition inline-flex items-center justify-center gap-2 cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
-              กลับไปแก้ไขรายการ
+              กลับไปดูตะกร้าสินค้า
             </button>
 
             <button
-              type="button"
-              onClick={handleConfirmOrderAndPayment}
+              type="submit"
               disabled={submitting}
               className="pkz-order-btn w-full sm:w-auto px-8 py-3.5 rounded-full bg-[var(--color-primary)] text-white text-sm sm:text-base font-semibold hover:opacity-95 transition shadow-sm inline-flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
             >
@@ -829,10 +917,10 @@ export const OrderPage: React.FC = () => {
                 ? uploadingSlip
                   ? 'กำลังอัปโหลดสลิป...'
                   : 'กำลังบันทึกคำสั่งซื้อ...'
-                : 'ยืนยันการชำระเงิน & สั่งซื้อ'}
+                : `ยืนยันการสั่งซื้อและแนบสลิป (฿${totalAmount.toLocaleString('th-TH')}) ♡`}
             </button>
           </div>
-        </div>
+        </form>
       )}
 
       {/* ========================================================================= */}

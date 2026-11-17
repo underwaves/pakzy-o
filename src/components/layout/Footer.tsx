@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/order" className="hover:text-[var(--color-primary)] transition">
-                  สั่งซื้อสินค้า / ส่งบรีฟงาน
+                  ตะกร้าสินค้า & สั่งซื้อ
                 </Link>
               </li>
               <li>
