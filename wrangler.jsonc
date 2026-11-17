@@ -1,0 +1,38 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pakzy-o",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-02-14",
+
+  // ตั้งค่า Workers Static Assets สำหรับเสิร์ฟหน้าเว็บ React SPA และส่ง /api/*, /r2/* เข้า Worker
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  },
+
+  // ตั้งค่าฐานข้อมูล Cloudflare D1 (SQLite)
+  // เมื่อสร้างฐานข้อมูลจริงด้วย `npx wrangler d1 create pakzy-o-db` ให้นำ database_id มาใส่แทนค่าด้านล่าง
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "pakzy-o-db",
+      "database_id": "69554bb4-da9e-43f0-9df4-d83bf6637afc",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // ตั้งค่า Cloudflare R2 Bucket สำหรับเก็บรูปสินค้า โลโก้ และไฟล์ฟอนต์ (.ttf, .otf, .woff2)
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "pakzy-o-bucket"
+    }
+  ],
+
+  // ตั้งค่า Cron Trigger รันวันละครั้ง (00:00 UTC) สำหรับตัดแต้มที่หมดอายุอัตโนมัติ (บันทึกเป็น ledger ชนิด expire)
+  "triggers": {
+    "crons": ["0 0 * * *"]
+  }
+}

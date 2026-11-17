@@ -1,0 +1,18 @@
+# ตัวอย่างการตั้งค่าตัวแปรสภาพแวดล้อมสำหรับรันในเครื่อง (Local Development)
+# คัดลอกไฟล์นี้เป็น .dev.vars ก่อนรัน `npx wrangler dev`
+# สำหรับ Production ให้ตั้งค่าผ่านคำสั่ง `npx wrangler secret put <KEY>` เท่านั้น ห้ามใส่ใน wrangler.jsonc
+
+# กำหนด Environment สำหรับการรันในเครื่อง (ห้ามตั้งเป็น production ใน .dev.vars)
+ENVIRONMENT="development"
+
+# กุญแจลับสำหรับเข้ารหัส Session JWT ของแอดมิน (แนะนำให้ใช้ข้อความสุ่มยาวอย่างน้อย 32 ตัวอักษร)
+JWT_SECRET="replace-with-your-super-secret-jwt-key-at-least-32-chars"
+
+# ข้อมูลบัญชีแอดมินเริ่มต้น (ระบบจะนำไป Hash ด้วย PBKDF2 ลงตาราง admins อัตโนมัติเมื่อยังไม่มีแอดมินในระบบ)
+ADMIN_INITIAL_USERNAME="admin"
+ADMIN_INITIAL_PASSWORD="pakzy-admin-password"
+
+# (ตัวเลือก) สำหรับฟีเจอร์ส่งสรุปคำสั่งซื้อเข้า LINE แอดมินอัตโนมัติผ่าน LINE Messaging API
+# สามารถเปิด-ปิดการใช้งาน (Feature Flag) ได้จากหน้าตั้งค่าเว็บหลังบ้าน
+LINE_CHANNEL_ACCESS_TOKEN=""
+LINE_ADMIN_USER_ID=""

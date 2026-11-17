@@ -1,0 +1,439 @@
+@import "tailwindcss";
+
+:root {
+  /* โทนสีหลัก (Light Mode): ครีมชมพูพาสเทล + น้ำตาลเข้มช็อกโกแลต */
+  --color-primary: #ec7a9a;
+  --color-primary-hover: #df6184;
+  --color-primary-light: #fceef2;
+  --color-secondary: #4a3228;
+  --color-secondary-muted: #7d5d50;
+  --color-bg: #fffaf8;
+  --color-surface: #ffffff;
+  --color-border: #eed5de;
+  --color-accent-gold: #d4a373;
+  --color-accent-mint: #e6f4ea;
+  --font-main: 'Prompt', 'Kanit', sans-serif;
+}
+
+/* Dark Mode โทนน้ำตาลเข้มอบอุ่น (Warm Espresso & Soft Pink) */
+html.dark {
+  --color-primary: #f28cab;
+  --color-primary-hover: #f5a3bc;
+  --color-primary-light: #3b2629;
+  --color-secondary: #f9ece6;
+  --color-secondary-muted: #cbb2a6;
+  --color-bg: #221612;
+  --color-surface: #2e1f1a;
+  --color-border: #4a332b;
+  --color-accent-gold: #e5b887;
+}
+
+@theme {
+  --color-pkz-pink: var(--color-primary);
+  --color-pkz-pink-hover: var(--color-primary-hover);
+  --color-pkz-pink-light: var(--color-primary-light);
+  --color-pkz-brown: var(--color-secondary);
+  --color-pkz-brown-muted: var(--color-secondary-muted);
+  --color-pkz-bg: var(--color-bg);
+  --color-pkz-surface: var(--color-surface);
+  --color-pkz-border: var(--color-border);
+  --color-pkz-gold: var(--color-accent-gold);
+}
+
+html {
+  font-family: var(--font-main);
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(236, 122, 154, 0.07) 0%, transparent 28%),
+    radial-gradient(circle at 88% 22%, rgba(212, 163, 115, 0.07) 0%, transparent 30%);
+  color: var(--color-secondary);
+  font-family: var(--font-main);
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Paper Grain Texture บางมากด้วย SVG feTurbulence (ไม่ต้องโหลดไฟล์ภาพภายนอก) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='pkzNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23pkzNoise)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ปรับสีพื้นหลังของการ์ดที่มีคลาส bg-white เมื่ออยู่ในโหมด Dark Mode น้ำตาลเข้ม */
+html.dark .bg-white {
+  background-color: var(--color-surface) !important;
+}
+
+html.dark .bg-white\/90,
+html.dark .bg-white\/95 {
+  background-color: rgba(46, 31, 26, 0.92) !important;
+}
+
+/* ลายกระดาษสมุดโน้ตสำหรับพื้นที่ทดลองพิมพ์ฟอนต์และการ์ดตกแต่ง */
+.pkz-paper-dots {
+  background-image: radial-gradient(rgba(236, 122, 154, 0.26) 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+.pkz-paper-grid {
+  background-image:
+    linear-gradient(to right, rgba(236, 122, 154, 0.11) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(236, 122, 154, 0.11) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.pkz-paper-lines {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 35px,
+    rgba(236, 122, 154, 0.16) 35px,
+    rgba(236, 122, 154, 0.16) 36px
+  );
+}
+
+/* การ์ดหลักและการ์ดสติกเกอร์ของร้าน: ตั้งตรง 100% ไม่เอียง ไม่บิดมุม */
+.pkz-card,
+.pkz-sticker-card {
+  position: relative;
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  box-shadow: 0 4px 16px -4px rgba(74, 50, 40, 0.08);
+  transform: translateY(0) scale(1);
+  transition: transform 180ms cubic-bezier(0.2, 0, 0.2, 1),
+              box-shadow 180ms cubic-bezier(0.2, 0, 0.2, 1),
+              border-color 180ms ease,
+              outline-color 180ms ease;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+html.dark .pkz-card,
+html.dark .pkz-sticker-card {
+  border-color: var(--color-border);
+}
+
+/* Hover (เดสก์ท็อป): การ์ดยกขึ้นเล็กน้อย (translateY -4px) เงาเข้มขึ้น ขอบเปลี่ยนเป็นสีชมพูหลัก */
+@media (hover: hover) and (pointer: fine) {
+  .pkz-card:hover,
+  .pkz-sticker-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-primary);
+    box-shadow: 0 12px 28px -6px rgba(74, 50, 40, 0.16),
+                0 4px 14px -2px rgba(236, 122, 154, 0.24);
+  }
+}
+
+/* กดค้าง/แตะ (:active รวมทั้งมือถือและเดสก์ท็อป): การ์ดยุบลงเล็กน้อย (scale 0.98) */
+.pkz-card:active,
+.pkz-sticker-card:active {
+  transform: scale(0.98);
+  transition-duration: 90ms;
+}
+
+/* โฟกัสด้วยคีย์บอร์ด (:focus-visible): ขอบหนาสีชมพูชัดเจน */
+.pkz-card:focus-visible,
+.pkz-sticker-card:focus-visible {
+  outline: 2.5px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+/* เมื่อคลิกเข้าดูรายการ: การ์ดที่ถูกเลือกค้างสถานะเน้น (ขอบชมพู + เงา) */
+.pkz-card.is-selected,
+.pkz-sticker-card.is-selected {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px var(--color-primary),
+              0 12px 28px -6px rgba(236, 122, 154, 0.28) !important;
+  transform: translateY(-2px);
+}
+
+.pkz-sticker-peel {
+  display: none !important;
+}
+
+/* แถบข้อความวิ่ง Marquee Strip (หยุดเมื่อ Hover หรือ prefers-reduced-motion) */
+@keyframes pkzMarquee {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.pkz-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: pkzMarquee 36s linear infinite;
+  will-change: transform;
+}
+
+.pkz-marquee-wrap:hover .pkz-marquee-track {
+  animation-play-state: paused;
+}
+
+/* ตราประทับ "ขอบคุณค่ะ" ตกลงมาแบบเด้งในหน้าสั่งซื้อสำเร็จ (ตั้งตรง ไม่เอียง) */
+@keyframes pkzStampDrop {
+  0% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(0.92);
+  }
+  82% {
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-stamp-drop {
+  animation: pkzStampDrop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* หัวใจ/ดาวเล็กปลิวครั้งเดียวตอนตราประทับตกลงมา (ตรง ไม่เอียง) */
+@keyframes pkzBurstOnce {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(calc(var(--bx, 20px) * 0.6), calc(var(--by, -20px) * 0.6)) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--bx, 24px), var(--by, -26px)) scale(0.75);
+  }
+}
+
+.animate-burst-once {
+  animation: pkzBurstOnce 1.1s 0.25s cubic-bezier(0.22, 1, 0.36, 1) 1 forwards;
+  opacity: 0;
+}
+
+/* เทปกระดาษแปะหัวการ์ด (Washi Tape Effect) */
+.pkz-washi-tape {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(252, 238, 242, 0.9),
+    rgba(252, 238, 242, 0.9) 8px,
+    rgba(236, 122, 154, 0.22) 8px,
+    rgba(236, 122, 154, 0.22) 16px
+  );
+  border: 1px dashed rgba(236, 122, 154, 0.45);
+}
+
+html.dark .pkz-washi-tape {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(74, 51, 43, 0.85),
+    rgba(74, 51, 43, 0.85) 8px,
+    rgba(242, 140, 171, 0.25) 8px,
+    rgba(242, 140, 171, 0.25) 16px
+  );
+}
+
+/* Animation ทั้งหมดใช้เฉพาะ transform และ opacity เท่านั้น */
+@keyframes pkzFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pkzFloatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pkzPulseSoft {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.82;
+  }
+  50% {
+    transform: scale(1.14);
+    opacity: 1;
+  }
+}
+
+@keyframes pkzStarPop {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pkzHeartRise1 {
+  0% {
+    opacity: 0;
+    transform: translate(0, 4px) scale(0.5);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-10px, -22px) scale(1.05);
+  }
+}
+
+@keyframes pkzHeartRise2 {
+  0% {
+    opacity: 0;
+    transform: translate(0, 4px) scale(0.5);
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(12px, -24px) scale(0.95);
+  }
+}
+
+.animate-fade-in {
+  animation: pkzFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-float-gentle {
+  animation: pkzFloatGentle 5s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pkzPulseSoft 3.5s ease-in-out infinite;
+}
+
+.animate-star-pop {
+  animation: pkzStarPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ปุ่มสั่งซื้อที่มีหัวใจเล็กลอยขึ้นตอน Hover */
+.pkz-order-btn {
+  position: relative;
+  overflow: visible;
+}
+
+.pkz-order-btn::before,
+.pkz-order-btn::after {
+  content: "♥";
+  position: absolute;
+  top: -2px;
+  font-size: 12px;
+  color: var(--color-primary);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.pkz-order-btn::before {
+  left: 22%;
+}
+
+.pkz-order-btn::after {
+  right: 22%;
+}
+
+.pkz-order-btn:hover::before {
+  animation: pkzHeartRise1 0.85s ease-out infinite;
+}
+
+.pkz-order-btn:hover::after {
+  animation: pkzHeartRise2 0.95s 0.18s ease-out infinite;
+}
+
+/* Scroll Reveal แบบ Fade-up นุ่ม ๆ */
+.pkz-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pkz-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* เคารพ prefers-reduced-motion ทุกจุดอย่างเคร่งครัด */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .pkz-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .pkz-order-btn:hover::before,
+  .pkz-order-btn:hover::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .pkz-marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .pkz-card,
+  .pkz-card:hover,
+  .pkz-card:active,
+  .pkz-sticker-card,
+  .pkz-sticker-card:hover,
+  .pkz-sticker-card:active {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ปรับแต่ง Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e9b8c6;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
